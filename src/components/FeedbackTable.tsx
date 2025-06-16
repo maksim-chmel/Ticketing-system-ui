@@ -28,7 +28,7 @@ const FeedbackTable = () => {
     const handleMarkDone = async (id: number) => {
         console.log("Кнопка нажата, id:", id);  // <-- Добавил лог
         try {
-            await axios.put(`http://100.70.1.11:8082/api/Feedback/make-done/${id}`);
+            await axios.post(`http://100.70.1.11/api/Feedback/make-done/${id}`);
             console.log("Запрос выполнен успешно");
             fetchFeedbacks(); // обновим список
         } catch (error) {
