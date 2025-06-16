@@ -1,0 +1,115 @@
+/* Плавная анимация перелива градиента */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    /* Анимированный градиентный фон с плавным переливом */
+    background: linear-gradient(270deg,
+    #ff9a9e,
+    #fad0c4,
+    #fad0c4,
+    #ff9a9e,
+    #fbc1cc,
+    #a1c4fd,
+    #c2e9fb,
+    #a1c4fd
+    );
+    background-size: 1600% 1600%;
+    animation: gradientShift 30s ease infinite;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Контейнер с эффектом стекла */
+.feedback-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 30px 40px; /* чуть больше padding */
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 30px; /* увеличенный радиус */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+    color: #222;
+    box-sizing: border-box;
+}
+
+/* Современная стеклянная таблица */
+.feedback-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 16px; /* увеличенный отступ между строками */
+    font-size: 16px;
+    color: #333;
+    overflow: hidden;
+    border-radius: 30px; /* увеличенный радиус */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-table thead tr {
+    background: rgba(255, 255, 255, 0.1); /* более прозрачный фон */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #444;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 30px;
+    transition: background 0.3s ease;
+}
+
+.feedback-table thead tr:hover {
+    background: rgba(255, 255, 255, 0.2); /* чуть менее прозрачный при наведении */
+}
+
+.feedback-table th,
+.feedback-table td {
+    padding: 20px 30px; /* увеличенный padding */
+    text-align: left;
+    vertical-align: middle;
+}
+
+.feedback-table tbody tr {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 30px; /* увеличенный радиус */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: default;
+}
+
+.feedback-table tbody tr:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.feedback-table tbody tr td:first-child {
+    border-top-left-radius: 30px; /* увеличенный радиус */
+    border-bottom-left-radius: 30px;
+}
+
+.feedback-table tbody tr td:last-child {
+    border-top-right-radius: 30px; /* увеличенный радиус */
+    border-bottom-right-radius: 30px;
+}
+
+.no-data {
+    text-align: center;
+    font-style: italic;
+    color: #555;
+    padding: 30px 0;
+}
