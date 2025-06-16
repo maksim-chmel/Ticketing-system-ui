@@ -1,12 +1,15 @@
+
+
 import React from "react";
 import FeedbackTable from "./components/FeedbackTable";
+import "./App.css";
 
-const App: React.FC = () => {
-  return (
-      <div>
-        <FeedbackTable />
-      </div>
-  );
-};
+function App() {
+    return (
+        <div className="App">
+            <FeedbackTable />
+        </div>
+    );
+}
 
 export default App;

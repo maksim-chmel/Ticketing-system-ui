@@ -16,10 +16,25 @@ const FeedbackTable = () => {
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
 
     useEffect(() => {
+        fetchFeedbacks();
+    }, []);
+
+    const fetchFeedbacks = () => {
         axios.get<Feedback[]>("http://100.70.1.11:8082/api/Feedback")
             .then(response => setFeedbacks(response.data))
             .catch(console.error);
-    }, []);
+    };
+
+    const handleMarkDone = async (id: number) => {
+        console.log("Кнопка нажата, id:", id);  // <-- Добавил лог
+        try {
+            await axios.put(`http://100.70.1.11:8082/api/Feedback/make-done/${id}`);
+            console.log("Запрос выполнен успешно");
+            fetchFeedbacks(); // обновим список
+        } catch (error) {
+            console.error("Ошибка при изменении статуса", error);
+        }
+    };
 
     const formatDate = (dateStr: string) => {
         try {
@@ -44,12 +59,13 @@ const FeedbackTable = () => {
                     <th>Comment</th>
                     <th>Дата</th>
                     <th>Status</th>
+                    <th>Действие</th> {/* ✅ новая колонка */}
                 </tr>
                 </thead>
                 <tbody>
                 {feedbacks.length === 0 ? (
                     <tr>
-                        <td colSpan={7} className="no-data">Нет данных</td>
+                        <td colSpan={8} className="no-data">Нет данных</td>
                     </tr>
                 ) : (
                     feedbacks.map(fb => (
@@ -60,7 +76,12 @@ const FeedbackTable = () => {
                             <td>{fb.phone ?? "—"}</td>
                             <td>{fb.comment}</td>
                             <td>{formatDate(fb.date)}</td>
-                            <td>{fb.status}</td>
+                            <td>{fb.status === 1 ? "Открыта" : "Закрыта"}</td>
+                            <td>
+                                {fb.status === 1 && (
+                                    <button onClick={() => handleMarkDone(fb.id)}>Закрыть</button>
+                                )}
+                            </td>
                         </tr>
                     ))
                 )}
