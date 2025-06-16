@@ -9,7 +9,7 @@ interface Feedback {
     username: string | null;
     phone: string | null;
     date: string;
-    status: number;
+    isDone: boolean;  // Используем булево поле для статуса
 }
 
 const FeedbackTable = () => {
@@ -26,11 +26,12 @@ const FeedbackTable = () => {
     };
 
     const handleMarkDone = async (id: number) => {
-        console.log("Кнопка нажата, id:", id);  // <-- Добавил лог
         try {
-            await axios.post(`http://100.70.1.11/api/Feedback/make-done/${id}`);
-            console.log("Запрос выполнен успешно");
-            fetchFeedbacks(); // обновим список
+            await axios.post(`http://100.70.1.11:8082/api/Feedback/make-done/${id}`);
+            // Обновляем локально состояние для быстрой реакции UI
+            setFeedbacks(prev =>
+                prev.map(fb => fb.id === id ? { ...fb, isDone: true } : fb)
+            );
         } catch (error) {
             console.error("Ошибка при изменении статуса", error);
         }
@@ -59,7 +60,7 @@ const FeedbackTable = () => {
                     <th>Comment</th>
                     <th>Дата</th>
                     <th>Status</th>
-                    <th>Действие</th> {/* ✅ новая колонка */}
+                    <th>Действие</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -76,9 +77,9 @@ const FeedbackTable = () => {
                             <td>{fb.phone ?? "—"}</td>
                             <td>{fb.comment}</td>
                             <td>{formatDate(fb.date)}</td>
-                            <td>{fb.status === 1 ? "Открыта" : "Закрыта"}</td>
+                            <td>{fb.isDone ? "Закрыта" : "Открыта"}</td>
                             <td>
-                                {fb.status === 1 && (
+                                {!fb.isDone && (
                                     <button onClick={() => handleMarkDone(fb.id)}>Закрыть</button>
                                 )}
                             </td>
