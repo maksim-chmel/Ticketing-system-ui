@@ -1,0 +1,241 @@
+.feedback-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* --- Статус-фильтр кнопки --- */
+.status-filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.status-filter-btn {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 20px;
+    background-color: #ddd;
+    color: #333;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.status-filter-btn:hover {
+    background-color: #bbb;
+}
+
+.status-filter-btn.active {
+    color: white;
+    font-weight: 700;
+}
+
+/* Цвета по статусам */
+.status-filter-btn.status-open { background-color: #1976d2; }
+.status-filter-btn.status-inprogress { background-color: #ff9800; }
+.status-filter-btn.status-waitingforreply { background-color: #9c27b0; }
+.status-filter-btn.status-closed { background-color: #4caf50; }
+.status-filter-btn.status-rejected { background-color: #f44336; }
+
+/* --- Таблица со стеклянным эффектом --- */
+.feedback-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    color: #222;
+    font-weight: 500;
+}
+
+/* Заголовки */
+.feedback-table thead th {
+    background: rgba(255, 255, 255, 0.25);
+    position: sticky;
+    top: 0;
+    padding: 12px 12px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    text-align: left;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #111;
+    user-select: none;
+}
+
+/* Скругляем углы заголовков */
+.feedback-table thead th:first-child {
+    border-top-left-radius: 16px;
+}
+
+.feedback-table thead th:last-child {
+    border-top-right-radius: 16px;
+}
+
+/* Ячейки тела таблицы */
+.feedback-table tbody td {
+    padding: 12px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    vertical-align: middle;
+    font-size: 0.95rem;
+    color: #222;
+    background: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+/* Скругление нижних углов */
+.feedback-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 16px;
+}
+
+.feedback-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 16px;
+}
+
+/* Убираем нижнюю границу у последней строки */
+.feedback-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Эффект при наведении */
+.feedback-table tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Запрет переноса и обрезка для комментариев */
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Имя и телефон в одном столбце */
+.user-phone-cell .username {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-phone-cell .phone {
+    font-size: 0.8rem;
+    color: gray;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Цветные бейджи статуса */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    color: white;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    user-select: none;
+    font-weight: 600;
+}
+
+.status-open { background-color: #1976d2; }
+.status-inprogress { background-color: #ff9800; }
+.status-waitingforreply { background-color: #9c27b0; }
+.status-closed { background-color: #4caf50; }
+.status-rejected { background-color: #f44336; }
+
+/* Кнопки действий (иконки) */
+.action-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 6px;
+    margin-right: 4px;
+    color: #444;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.action-button:hover {
+    color: #000;
+}
+
+/* Нет данных */
+.no-data {
+    text-align: center;
+    padding: 20px 0;
+    color: #888;
+}
+.comment-clickable {
+    cursor: pointer;
+    color: #1976d2;
+    text-decoration: underline;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.close-button:hover {
+    color: #000;
+}
+.back-button {
+    display: inline-block;
+    padding: 10px 16px;
+    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.back-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
