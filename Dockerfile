@@ -15,8 +15,8 @@ FROM nginx:alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Удаляем стандартный конфиг и подставляем свой при необходимости
-# COPY nginx.conf /etc/nginx/nginx.conf
+# ⬇️ Копируем кастомный nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
