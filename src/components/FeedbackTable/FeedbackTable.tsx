@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./FeedbackTable.css";
 
-import { fetchFeedbacks, updateFeedbackStatus, Feedback, FeedbackStatus } from "../../api"; // путь поправь под свой
+import {
+    fetchFeedbacks,
+    updateFeedbackStatus,
+    Feedback,
+    FeedbackStatus
+} from "../../api"; // поправь путь под свой проект
 
 const statusMap: Record<FeedbackStatus, string> = {
     [FeedbackStatus.Open]: "Открыта",
@@ -16,6 +21,7 @@ const FeedbackTable = () => {
     const navigate = useNavigate();
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
     const [statusFilter, setStatusFilter] = useState<FeedbackStatus | "all">("all");
+    const [searchQuery, setSearchQuery] = useState("");
     const [selectedComment, setSelectedComment] = useState<string | null>(null);
 
     useEffect(() => {
@@ -87,9 +93,20 @@ const FeedbackTable = () => {
         }
     };
 
-    const filteredFeedbacks = statusFilter === "all"
-        ? feedbacks
-        : feedbacks.filter(fb => fb.status === statusFilter);
+    const filteredFeedbacks = feedbacks
+        .filter(fb => {
+            if (statusFilter === "all") return true;
+            return fb.status === statusFilter;
+        })
+        .filter(fb => {
+            const query = searchQuery.toLowerCase();
+            return (
+                fb.id.toString().includes(query) ||
+                fb.userId?.toString().includes(query) ||
+                fb.username?.toLowerCase().includes(query) ||
+                fb.phone?.toLowerCase().includes(query)
+            );
+        });
 
     const StatusFilterButtons = () => (
         <div className="status-filter-buttons">
@@ -121,6 +138,16 @@ const FeedbackTable = () => {
                 ← Назад
             </button>
             <h1>Заявки</h1>
+
+            <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="Поиск по ID, имени, телефону..."
+                    className="search-input"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
 
             <StatusFilterButtons />
 

@@ -1,23 +1,24 @@
-/// src/api.ts
-import axios from "axios";
+// src/api.ts
+import axiosInstance from "./axiosInstance";
 import BASE_URL from "./config";
+import axios from "axios";
 
+export const login = async (username: string, password: string): Promise<{ token: string }> => {
+    const response = await axios.post(`${BASE_URL}/Auth/login`, {
+        username,
+        password,
+    });
+
+    return response.data;
+};
 export const fetchStatusDistribution = async () => {
-    try {
-        const response = await axios.get(`${BASE_URL}/statistics/status-distribution`);
-        return response.data;
-    } catch (error) {
-        throw new Error("Failed to fetch status distribution");
-    }
+    const response = await axiosInstance.get("/statistics/status-distribution");
+    return response.data;
 };
 
 export const fetchRequestsOverTime = async () => {
-    try {
-        const response = await axios.get(`${BASE_URL}/statistics/requests-over-time`);
-        return response.data;
-    } catch (error) {
-        throw new Error("Failed to fetch requests over time");
-    }
+    const response = await axiosInstance.get("/statistics/requests-over-time");
+    return response.data;
 };
 
 export enum FeedbackStatus {
@@ -39,10 +40,10 @@ export interface Feedback {
 }
 
 export const fetchFeedbacks = async (): Promise<Feedback[]> => {
-    const response = await axios.get<Feedback[]>(`${BASE_URL}/Feedback`);
+    const response = await axiosInstance.get<Feedback[]>("/Feedback");
     return response.data;
 };
 
 export const updateFeedbackStatus = async (id: number, status: FeedbackStatus): Promise<void> => {
-    await axios.post(`${BASE_URL}/Feedback/update-status/${id}?status=${status}`);
+    await axiosInstance.post(`/Feedback/update-status/${id}?status=${status}`);
 };
