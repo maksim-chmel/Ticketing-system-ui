@@ -1,7 +1,7 @@
-// LoginPage.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api"; // импорт функции логина
+import "./LoginPage.css";
+import { login } from "../../api";
 
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState("");
@@ -23,27 +23,27 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <div style={{ maxWidth: 320, margin: "auto", paddingTop: 50 }}>
-            <h2>Вход</h2>
-            <form onSubmit={handleLogin}>
+        <div className="glass-login-container">
+            <h2 className="glass-login-title">Вход</h2>
+            <form onSubmit={handleLogin} className="glass-login-form">
                 <input
                     type="text"
                     placeholder="Логин"
                     value={username}
                     onChange={e => setUsername(e.target.value)}
+                    className="glass-input"
                     required
-                    style={{ width: "100%", padding: 8, marginBottom: 12 }}
                 />
                 <input
                     type="password"
                     placeholder="Пароль"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
+                    className="glass-input"
                     required
-                    style={{ width: "100%", padding: 8, marginBottom: 12 }}
                 />
-                <button type="submit" style={{ width: "100%", padding: 10 }}>Войти</button>
-                {error && <p style={{ color: "red", marginTop: 12 }}>{error}</p>}
+                <button type="submit" className="glass-button">Войти</button>
+                {error && <p className="glass-error">{error}</p>}
             </form>
         </div>
     );

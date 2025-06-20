@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FeedbackTable from "./components/FeedbackTable/FeedbackTable";
 import HomePage from "./components/HomePage/HomePage";
 import StatsPage from "./components/Statistic/StatisticsPage";
-import LoginPage from "./components/LoginPage"; // импорт страницы логина
+import LoginPage from "./components/LoginPage/LoginPage"; // импорт страницы логина
 import ProtectedRoute from "./components/ProtectedRoute"; // импорт защитного компонента
 
 import "./App.css";
