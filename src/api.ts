@@ -4,10 +4,11 @@ import BASE_URL from "./config";
 import axios from "axios";
 
 export const login = async (username: string, password: string): Promise<{ token: string }> => {
-    const response = await axios.post(`${BASE_URL}/Auth/login`, {
-        username,
-        password,
-    });
+    const response = await axios.post(
+        `${BASE_URL}/Auth/login`,
+        { username, password },
+        { withCredentials: true } // 🔥 обязательно! чтобы refreshToken записался в куку
+    );
 
     return response.data;
 };
