@@ -1,16 +1,9 @@
-/* UserList.css */
-
 .user-list {
     max-width: 90%;
     margin: 2rem auto;
-    padding: 1.5rem 1rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: rgba(255 255 255 / 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(31, 38, 135, 0.25);
-    color: #1e1e2f;
+    color: #f0f0f5; /* Светлый текст */
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .user-list h2 {
@@ -18,7 +11,8 @@
     margin-bottom: 2rem;
     font-weight: 700;
     font-size: 1.8rem;
-    color: #312e81;
+    color: #e0dfff; /* Светло-фиолетовый */
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
 }
 
 .user-list table {
@@ -30,6 +24,8 @@
     overflow: hidden;
     background: rgba(255 255 255 / 0.1);
     box-shadow: 0 1rem 2rem rgba(31, 38, 135, 0.15);
+    color: #f0f0f5;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
 .user-list thead th {
@@ -41,8 +37,9 @@
     text-align: left;
     font-weight: 700;
     font-size: 1rem;
-    color: #111;
+    color: #fff;
     user-select: none;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
 }
 
 .user-list thead th:first-child {
@@ -58,9 +55,10 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     vertical-align: middle;
     font-size: 0.95rem;
-    color: #222;
+    color: #f0f0f5;
     background: rgba(255 255 255 / 0.12);
     transition: background-color 0.3s ease;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
 }
 
 .user-list tbody tr:last-child td:first-child {
@@ -86,69 +84,58 @@
     font-size: 1rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-radius: 8px;
-    border: 1.5px solid rgba(0,0,0,0.2);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
     resize: vertical;
     box-sizing: border-box;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, background 0.3s ease;
     background: rgba(255 255 255 / 0.3);
+    color: #111;
+    text-shadow: none;
 }
 
 .user-list textarea:focus {
     outline: none;
-    border-color: #312e81;
+    border-color: #7c7aff;
     background: rgba(255 255 255 / 0.5);
-    box-shadow: 0 0 8px #312e81;
+    box-shadow: 0 0 10px #7c7aff;
+    color: #111;
 }
 
 .user-list button {
     cursor: pointer;
-    background: linear-gradient(135deg, #4f46e5, #312e81);
+    background: linear-gradient(135deg, #5c5fff, #4a47b7);
     color: white;
     border: none;
-    padding: 8px 16px;
-    border-radius: 12px;
-    font-size: 0.95rem;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
     font-weight: 600;
-    transition: background 0.3s ease;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
     user-select: none;
+    box-shadow: 0 0 6px rgba(92, 95, 255, 0.5);
+    outline-offset: 2px;
 }
 
 .user-list button:hover {
-    background: linear-gradient(135deg, #312e81, #4f46e5);
+    background: linear-gradient(135deg, #4a47b7, #5c5fff);
+    box-shadow: 0 0 10px rgba(92, 95, 255, 0.7);
+}
+
+.user-list button:focus-visible {
+    outline: 2px solid #5c5fff;
+    outline-offset: 2px;
 }
 
 .user-list button + button {
-    margin-left: 12px;
-    background: #f44336;
+    margin-left: 10px;
+    background: #e94e4e;
+    box-shadow: 0 0 6px rgba(233, 78, 78, 0.5);
 }
 
 .user-list button + button:hover {
-    background: #b71c1c;
+    background: #c53939;
+    box-shadow: 0 0 10px rgba(197, 57, 57, 0.7);
 }
-
-/* Кнопка Назад */
-.back-button {
-    display: inline-block;
-    padding: 0.6em 1.2em;
-    color: #312e81;
-    background-color: transparent;
-    border: 2px solid #312e81;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-    user-select: none;
-    margin-bottom: 1.5rem;
-}
-
-.back-button:hover {
-    background-color: #312e81;
-    color: white;
-    box-shadow: 0 8px 20px rgba(49, 46, 129, 0.6);
-}
-
-/* Адаптив для мобильных */
 @media (max-width: 600px) {
     .user-list {
         padding: 1.5rem 1rem;
@@ -167,4 +154,81 @@
         font-size: 0.85rem;
         padding: 6px 12px;
     }
+}
+/* Уведомление */
+.notification {
+    position: fixed;
+    top: 20px;             /* чуть ниже верхнего края */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 16px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    z-index: 2000;
+    user-select: none;
+    color: #fff;
+    animation: fadeInOutTop 3.5s ease forwards;
+    max-width: 90vw;
+    text-align: center;
+    min-width: 200px;
+}
+
+.notification.success {
+    background-color: #4caf50;
+}
+
+.notification.error {
+    background-color: #f44336;
+}
+
+@keyframes fadeInOutTop {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    10%, 90% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+}
+/* Кнопки */
+.btn {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    user-select: none;
+}
+
+.edit-btn {
+    color: #5c5fff;
+}
+
+.edit-btn:hover {
+    background-color: rgba(92, 95, 255, 0.15);
+}
+
+.save-btn {
+    color: #4caf50;
+}
+
+.save-btn:hover {
+    background-color: rgba(76, 175, 80, 0.15);
+}
+
+.cancel-btn {
+    color: #f44336;
+}
+
+.cancel-btn:hover {
+    background-color: rgba(244, 67, 54, 0.15);
 }

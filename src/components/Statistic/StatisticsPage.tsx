@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
     PieChart, Pie, Cell, Tooltip,
     BarChart, Bar, XAxis, YAxis, Legend,
@@ -31,7 +30,6 @@ const PieLegend: React.FC<{ data: { name: string, value: number }[] }> = ({ data
 };
 
 const StatisticsPage: React.FC = () => {
-    const navigate = useNavigate();
     const [dataStatus, setDataStatus] = useState([]);
     const [dataOverTime, setDataOverTime] = useState([]);
 
@@ -48,12 +46,9 @@ const StatisticsPage: React.FC = () => {
 
     return (
         <div className="container my-4">
-            <button className="back-button mb-3" onClick={() => navigate(-1)}>
-                ← Назад
-            </button>
-            <h2 className="mb-4 text-center">Статистика заявок</h2>
             <div className="chart-wrapper">
                 <div className="chart-grid">
+
                     <div className="chart-item" style={{ display: "flex", alignItems: "center", gap: "24px" }}>
                         <div>
                             <h5>Распределение по статусам</h5>
@@ -73,7 +68,21 @@ const StatisticsPage: React.FC = () => {
                                         />
                                     ))}
                                 </Pie>
-                                <Tooltip />
+                                <Tooltip
+                                    contentStyle={{
+                                        backgroundColor: "#222",  // тёмный фон
+                                        color: "#fff",            // белый текст
+                                        border: "none",
+                                        borderRadius: "8px",
+                                        boxShadow: "0 2px 10px rgba(0,0,0,0.7)",
+                                        fontWeight: 500,
+                                        fontSize: "0.9rem"
+                                    }}
+                                    itemStyle={{
+                                        color: "#fff"             // белый цвет для текста внутри тултипа
+                                    }}
+                                    cursor={{ fill: "rgba(255, 255, 255, 0.2)" }} // подсветка по наведению
+                                />
                             </PieChart>
                         </div>
                         <PieLegend data={dataStatus} />
@@ -82,10 +91,23 @@ const StatisticsPage: React.FC = () => {
                     <div className="chart-item">
                         <h5>Количество заявок по дням</h5>
                         <BarChart width={400} height={300} data={dataOverTime}>
-                            <XAxis dataKey="date" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
+                            <XAxis
+                                dataKey="date"
+                                stroke="#ffffff"
+                                tick={{ fill: "#ffffff" }}
+                            />
+                            <YAxis
+                                stroke="#ffffff"
+                                tick={{ fill: "#ffffff" }}
+                            />
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: "#222",
+                                    color: "#fff",
+                                    border: "none"
+                                }}
+                            />
+                            <Legend wrapperStyle={{ color: "#ffffff" }} />
                             <Bar dataKey="count" fill="#82ca9d" />
                         </BarChart>
                     </div>
@@ -93,14 +115,42 @@ const StatisticsPage: React.FC = () => {
                     <div className="chart-item" style={{ flexBasis: "100%" }}>
                         <h5>Динамика заявок за период</h5>
                         <LineChart width={800} height={300} data={dataOverTime}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Line type="monotone" dataKey="count" stroke="#8884d8" strokeWidth={2.5} activeDot={{ r: 6 }} />
+                            <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
+                            <XAxis
+                                dataKey="date"
+                                stroke="#ffffff"
+                                tick={{ fill: "#ffffff" }}
+                            />
+                            <YAxis
+                                stroke="#ffffff"
+                                tick={{ fill: "#ffffff" }}
+                            />
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: "#222",  // тёмный фон
+                                    color: "#fff",            // белый текст
+                                    border: "none",
+                                    borderRadius: "8px",
+                                    boxShadow: "0 2px 10px rgba(0,0,0,0.7)",
+                                    fontWeight: 500,
+                                    fontSize: "0.9rem"
+                                }}
+                                itemStyle={{
+                                    color: "#fff"             // белый цвет для текста внутри тултипа
+                                }}
+                                cursor={{ fill: "rgba(255, 255, 255, 0.2)" }} // подсветка по наведению
+                            />
+                            <Legend wrapperStyle={{ color: "#ffffff" }} />
+                            <Line
+                                type="monotone"
+                                dataKey="count"
+                                stroke="#8884d8"
+                                strokeWidth={2.5}
+                                activeDot={{ r: 6 }}
+                            />
                         </LineChart>
                     </div>
+
                 </div>
             </div>
         </div>

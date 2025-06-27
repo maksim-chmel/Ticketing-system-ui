@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axiosInstance";
-import { useNavigate } from "react-router-dom";
 import "./UserList.css";
 
 interface UserDto {
@@ -13,12 +12,15 @@ interface UserDto {
 }
 
 const UserList: React.FC = () => {
-    const navigate = useNavigate();
     const [users, setUsers] = useState<UserDto[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [editingUserId, setEditingUserId] = useState<number | null>(null);
     const [editingComments, setEditingComments] = useState<Record<number, string>>({});
+
+    // Для уведомлений
+    const [notification, setNotification] = useState<string | null>(null);
+    const [notificationType, setNotificationType] = useState<"success" | "error" | null>(null);
 
     useEffect(() => {
         fetchUsers();
@@ -69,10 +71,20 @@ const UserList: React.FC = () => {
                 )
             );
             cancelEditing();
-            alert("Комментарий сохранён");
+            showNotification("Комментарий сохранён", "success");
         } catch {
-            alert("Ошибка при сохранении комментария");
+            showNotification("Ошибка при сохранении комментария", "error");
         }
+    };
+
+    // Функция показа уведомления с автоскрытием
+    const showNotification = (message: string, type: "success" | "error") => {
+        setNotification(message);
+        setNotificationType(type);
+        setTimeout(() => {
+            setNotification(null);
+            setNotificationType(null);
+        }, 3500);
     };
 
     if (loading) return <p>⏳ Загрузка...</p>;
@@ -80,10 +92,11 @@ const UserList: React.FC = () => {
 
     return (
         <div className="user-list">
-            <button className="back-button mb-3" onClick={() => navigate(-1)}>
-                ← Назад
-            </button>
-            <h2>👥 Список пользователей</h2>
+            {notification && (
+                <div className={`notification ${notificationType}`}>
+                    {notification}
+                </div>
+            )}
             <table>
                 <thead>
                 <tr>
@@ -117,13 +130,11 @@ const UserList: React.FC = () => {
                         <td>
                             {editingUserId === user.userId ? (
                                 <>
-                                    <button onClick={saveComment}>💾 Сохранить</button>
-                                    <button onClick={cancelEditing} style={{ marginLeft: 8 }}>
-                                        ❌ Отмена
-                                    </button>
+                                    <button className="btn save-btn" onClick={saveComment} title="Сохранить">💾</button>
+                                    <button className="btn cancel-btn" onClick={cancelEditing} title="Отмена" style={{ marginLeft: 8 }}>❌</button>
                                 </>
                             ) : (
-                                <button onClick={() => startEditing(user)}>✏️ Редактировать</button>
+                                <button className="btn edit-btn" onClick={() => startEditing(user)} title="Редактировать">✏️</button>
                             )}
                         </td>
                     </tr>

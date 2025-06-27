@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./FeedbackTable.css";
 
 import {
@@ -18,7 +17,6 @@ const statusMap: Record<FeedbackStatus, string> = {
 };
 
 const FeedbackTable = () => {
-    const navigate = useNavigate();
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
     const [statusFilter, setStatusFilter] = useState<FeedbackStatus | "all">("all");
     const [searchQuery, setSearchQuery] = useState("");
@@ -134,10 +132,6 @@ const FeedbackTable = () => {
 
     return (
         <div className="feedback-container">
-            <button className="back-button mb-3" onClick={() => navigate(-1)}>
-                ← Назад
-            </button>
-            <h1>Заявки</h1>
 
             <div className="search-container">
                 <input

@@ -1,58 +1,36 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import FeedbackTable from "./components/FeedbackTable/FeedbackTable";
-import HomePage from "./components/HomePage/HomePage";
-import StatsPage from "./components/Statistic/StatisticsPage";
-import LoginPage from "./components/LoginPage/LoginPage";
-import ProtectedRoute from "./components/ProtectedRoute";
-import UserList from "./components/UserList/UserList";
-
 import "./App.css";
+import LoginPage from "./components/LoginPage/LoginPage";
+import FeedbackTable from "./components/FeedbackTable/FeedbackTable";
+import StatsPage from "./components/Statistic/StatisticsPage";
+import UserList from "./components/UserList/UserList";
+import ProtectedRoute from "./components/ProtectedRoute";
+import MainLayout from "./components/MainLayout/MainLayout";
 
 function App() {
     return (
         <div className="App">
             <Router>
                 <Routes>
-                    {/* Страница логина — доступна всем */}
+                    {/* Страница логина вне общего макета */}
                     <Route path="/login" element={<LoginPage />} />
 
-                    {/* Главная — защищена */}
+                    {/* Все защищённые маршруты внутри MainLayout */}
                     <Route
                         path="/"
                         element={
                             <ProtectedRoute>
-                                <HomePage />
+                                <MainLayout />
                             </ProtectedRoute>
                         }
-                    />
-                    <Route
-                        path="/users"
-                        element={
-                            <ProtectedRoute>
-                                <UserList />
-                            </ProtectedRoute>
-                        }
-                    />
-
-                    {/* Защищённые страницы */}
-                    <Route
-                        path="/feedback"
-                        element={
-                            <ProtectedRoute>
-                                <FeedbackTable />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/stats"
-                        element={
-                            <ProtectedRoute>
-                                <StatsPage />
-                            </ProtectedRoute>
-                        }
-                    />
+                    >
+                        <Route index element={<div>🏠 Добро пожаловать!</div>} />
+                        <Route path="feedback" element={<FeedbackTable />} />
+                        <Route path="stats" element={<StatsPage />} />
+                        <Route path="users" element={<UserList />} />
+                    </Route>
                 </Routes>
             </Router>
         </div>

@@ -1,94 +1,81 @@
-.menu-container {
+.glass-navbar {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
-    margin-top: 3rem;
-    padding: 0 1rem;
-}
-
-.main-title {
-    padding: 0.75rem 1.5rem;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #ffffff;
-    text-align: center;
-    border-radius: 1rem;
     background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    text-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.6);
-    box-shadow: 0 0.25rem 1.5rem rgba(255, 255, 255, 0.05), 0 0.125rem 0.75rem rgba(0, 0, 0, 0.2);
-    margin-bottom: 2rem;
-}
-
-.menu-button {
-    width: 16.25rem; /* 260px */
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 1rem;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 0.5rem 2rem rgba(31, 38, 135, 0.2);
-    text-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    margin-top: 2rem;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.navbar-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.navbar-links button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.75rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
     cursor: pointer;
-    transition: all 0.35s ease;
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
-.menu-button::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
+.navbar-links button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
 }
 
-.menu-button:hover::before {
-    opacity: 1;
-    animation: shine 1.2s linear forwards;
+.logout-btn {
+    background-color: #f44336 !important;
+    color: #fff !important;
+    border: none;
 }
 
-.menu-button:hover {
-    transform: translateY(-0.25rem) scale(1.02);
-    box-shadow: 0 0.75rem 2.5rem rgba(255, 255, 255, 0.15), 0 0.25rem 1.25rem rgba(0, 0, 0, 0.2);
+.logout-btn:hover {
+    background-color: #d32f2f !important;
 }
 
-@keyframes shine {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    100% {
-        transform: translate(150%, 150%) rotate(360deg);
-    }
-}
-
-/* 📱 Адаптивность для мобильных экранов */
-@media (max-width: 480px) {
-    .main-title {
-        font-size: 1.75rem;
-        padding: 0.75rem 1rem;
+/* 📱 Мобильная адаптация */
+@media (max-width: 600px) {
+    .glass-navbar {
+        padding: 1rem;
     }
 
-    .menu-button {
+    .navbar-title {
+        font-size: 1.5rem;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .navbar-links button {
         width: 100%;
-        max-width: 90vw;
-        padding: 0.875rem 1.5rem;
-        font-size: 1rem;
-    }
-
-    .menu-container {
-        gap: 1.25rem;
-        margin-top: 2rem;
     }
 }
