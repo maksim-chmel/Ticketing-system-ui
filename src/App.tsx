@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FeedbackTable from "./components/FeedbackTable/FeedbackTable";
 import HomePage from "./components/HomePage/HomePage";
 import StatsPage from "./components/Statistic/StatisticsPage";
-import LoginPage from "./components/LoginPage/LoginPage"; // импорт страницы логина
-import ProtectedRoute from "./components/ProtectedRoute"; // импорт защитного компонента
+import LoginPage from "./components/LoginPage/LoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import UserList from "./components/UserList/UserList";
 
 import "./App.css";
 
@@ -23,6 +24,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <HomePage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/users"
+                        element={
+                            <ProtectedRoute>
+                                <UserList />
                             </ProtectedRoute>
                         }
                     />

@@ -1,0 +1,170 @@
+/* UserList.css */
+
+.user-list {
+    max-width: 90%;
+    margin: 2rem auto;
+    padding: 1.5rem 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: rgba(255 255 255 / 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(31, 38, 135, 0.25);
+    color: #1e1e2f;
+}
+
+.user-list h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #312e81;
+}
+
+.user-list table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    background: rgba(255 255 255 / 0.1);
+    box-shadow: 0 1rem 2rem rgba(31, 38, 135, 0.15);
+}
+
+.user-list thead th {
+    background: rgba(255 255 255 / 0.25);
+    position: sticky;
+    top: 0;
+    padding: 1rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    text-align: left;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #111;
+    user-select: none;
+}
+
+.user-list thead th:first-child {
+    border-top-left-radius: 1.5rem;
+}
+
+.user-list thead th:last-child {
+    border-top-right-radius: 1.5rem;
+}
+
+.user-list tbody td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    vertical-align: middle;
+    font-size: 0.95rem;
+    color: #222;
+    background: rgba(255 255 255 / 0.12);
+    transition: background-color 0.3s ease;
+}
+
+.user-list tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 1.5rem;
+}
+
+.user-list tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 1.5rem;
+}
+
+.user-list tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.user-list tbody tr:hover td {
+    background: rgba(255 255 255 / 0.25);
+}
+
+.user-list textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px;
+    font-size: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 8px;
+    border: 1.5px solid rgba(0,0,0,0.2);
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    background: rgba(255 255 255 / 0.3);
+}
+
+.user-list textarea:focus {
+    outline: none;
+    border-color: #312e81;
+    background: rgba(255 255 255 / 0.5);
+    box-shadow: 0 0 8px #312e81;
+}
+
+.user-list button {
+    cursor: pointer;
+    background: linear-gradient(135deg, #4f46e5, #312e81);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background 0.3s ease;
+    user-select: none;
+}
+
+.user-list button:hover {
+    background: linear-gradient(135deg, #312e81, #4f46e5);
+}
+
+.user-list button + button {
+    margin-left: 12px;
+    background: #f44336;
+}
+
+.user-list button + button:hover {
+    background: #b71c1c;
+}
+
+/* Кнопка Назад */
+.back-button {
+    display: inline-block;
+    padding: 0.6em 1.2em;
+    color: #312e81;
+    background-color: transparent;
+    border: 2px solid #312e81;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+    margin-bottom: 1.5rem;
+}
+
+.back-button:hover {
+    background-color: #312e81;
+    color: white;
+    box-shadow: 0 8px 20px rgba(49, 46, 129, 0.6);
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 600px) {
+    .user-list {
+        padding: 1.5rem 1rem;
+    }
+
+    .user-list h2 {
+        font-size: 1.4rem;
+    }
+
+    .user-list tbody td {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .user-list button {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+}

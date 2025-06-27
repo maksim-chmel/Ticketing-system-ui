@@ -7,7 +7,7 @@ export const login = async (username: string, password: string): Promise<{ token
     const response = await axios.post(
         `${BASE_URL}/Auth/login`,
         { username, password },
-        { withCredentials: true } // 🔥 обязательно! чтобы refreshToken записался в куку
+        { withCredentials: true }
     );
 
     return response.data;
