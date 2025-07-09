@@ -8,6 +8,7 @@ import StatsPage from "./components/Statistic/StatisticsPage";
 import UserList from "./components/UserList/UserList";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MainLayout from "./components/MainLayout/MainLayout";
+import BroadcastForm from "./components/BroadcastForm/BroadcastForm";
 
 function App() {
     return (
@@ -26,10 +27,10 @@ function App() {
                             </ProtectedRoute>
                         }
                     >
-                        <Route index element={<div>🏠 Добро пожаловать!</div>} />
                         <Route path="feedback" element={<FeedbackTable />} />
                         <Route path="stats" element={<StatsPage />} />
                         <Route path="users" element={<UserList />} />
+                        <Route path="broadcast" element={<BroadcastForm />} />
                     </Route>
                 </Routes>
             </Router>

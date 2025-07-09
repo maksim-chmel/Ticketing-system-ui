@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-transition-group": "^4.4.12"
+    "@types/react-transition-group": "^4.4.12",
+    "jest": "^27.5.1"
   }
 }

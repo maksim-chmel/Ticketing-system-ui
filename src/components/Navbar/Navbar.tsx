@@ -38,6 +38,13 @@ const Navbar: React.FC = () => {
                 >
                     👥 Пользователи
                 </button>
+                <button
+                    className={`nav-button ${isActive("/broadcast") ? "active" : ""}`}
+                    onClick={() => navigate("/broadcast")}
+                    type="button"
+                >
+                    📣 Рассылка
+                </button>
             </div>
             <button className="logout-button" onClick={handleLogout} type="button">
                 🚪 Выйти
