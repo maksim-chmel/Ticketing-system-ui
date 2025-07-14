@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
-import { login } from "../../api";
+import { login } from "../../api"; // убедись, что login возвращает { accessToken }
 
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState("");
@@ -15,9 +15,15 @@ const LoginPage: React.FC = () => {
 
         try {
             const data = await login(username, password);
-            localStorage.setItem("token", data.token);
-            navigate("/");
+
+            if (data?.accessToken) {
+                localStorage.setItem("token", data.accessToken);
+                navigate("/");
+            } else {
+                setError("Ответ сервера некорректен: токен не получен");
+            }
         } catch (err) {
+            console.error("Ошибка при входе:", err);
             setError("Неверный логин или пароль");
         }
     };
@@ -30,7 +36,7 @@ const LoginPage: React.FC = () => {
                     type="text"
                     placeholder="Логин"
                     value={username}
-                    onChange={e => setUsername(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                     className="glass-input"
                     required
                 />
@@ -38,7 +44,7 @@ const LoginPage: React.FC = () => {
                     type="password"
                     placeholder="Пароль"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="glass-input"
                     required
                 />

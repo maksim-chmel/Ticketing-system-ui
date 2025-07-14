@@ -3,14 +3,17 @@ import axiosInstance from "./axiosInstance";
 import BASE_URL from "./config";
 import axios from "axios";
 
-export const login = async (username: string, password: string): Promise<{ token: string }> => {
+export const login = async (
+    username: string,
+    password: string
+): Promise<{ accessToken: string }> => {
     const response = await axios.post(
         `${BASE_URL}/Auth/login`,
         { username, password },
         { withCredentials: true }
     );
 
-    return response.data;
+    return response.data; // должен содержать { accessToken }
 };
 export const fetchStatusDistribution = async () => {
     const response = await axiosInstance.get("/statistics/status-distribution");
