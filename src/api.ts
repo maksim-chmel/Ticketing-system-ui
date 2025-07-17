@@ -51,3 +51,7 @@ export const fetchFeedbacks = async (): Promise<Feedback[]> => {
 export const updateFeedbackStatus = async (id: number, status: FeedbackStatus): Promise<void> => {
     await axiosInstance.post(`/Feedback/update-status/${id}?status=${status}`);
 };
+export const addBroadcastMessage = async (payload: { message: string }): Promise<string> => {
+    const response = await axiosInstance.post("/Broadcast/add-broadcastMessage", payload);
+    return response.data;
+};

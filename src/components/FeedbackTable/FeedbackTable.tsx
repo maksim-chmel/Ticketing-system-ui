@@ -6,7 +6,7 @@ import {
     updateFeedbackStatus,
     Feedback,
     FeedbackStatus
-} from "../../api"; // поправь путь под свой проект
+} from "../../api";
 
 const statusMap: Record<FeedbackStatus, string> = {
     [FeedbackStatus.Open]: "Открыта",

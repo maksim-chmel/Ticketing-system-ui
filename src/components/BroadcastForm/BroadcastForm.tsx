@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './BroadcastMessageForm.css';
+import { addBroadcastMessage } from "../../api";
 
 const BroadcastMessageForm: React.FC = () => {
     const [message, setMessage] = useState('');
@@ -18,24 +19,15 @@ const BroadcastMessageForm: React.FC = () => {
         setStatus(null);
 
         try {
-            const response = await fetch('http://localhost:5101/api/Broadcast/add-broadcastMessage', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(message),
-            });
-
-            if (response.ok) {
-                const text = await response.text();
-                setStatus(text);
-                setMessage('');
+            const result = await addBroadcastMessage({ message });
+            setStatus(result);
+            setMessage('');
+        } catch (error: any) {
+            if (error.response?.data) {
+                setStatus(`Ошибка: ${error.response.data}`);
             } else {
-                const error = await response.text();
-                setStatus(`Ошибка: ${error}`);
+                setStatus(`Ошибка сети: ${error.message || error.toString()}`);
             }
-        } catch (error) {
-            setStatus(`Ошибка сети: ${(error as Error).message}`);
         }
 
         setLoading(false);
@@ -45,14 +37,14 @@ const BroadcastMessageForm: React.FC = () => {
         <div className="broadcast-container">
             <h2 className="broadcast-title">📢 Рассылка пользователям</h2>
             <form onSubmit={handleSubmit} className="broadcast-form">
-                <textarea
-                    rows={5}
-                    value={message}
-                    onChange={e => setMessage(e.target.value)}
-                    placeholder="Введите сообщение для рассылки..."
-                    className="broadcast-textarea"
-                    disabled={loading}
-                />
+        <textarea
+            rows={5}
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+            placeholder="Введите сообщение для рассылки..."
+            className="broadcast-textarea"
+            disabled={loading}
+        />
                 <button type="submit" disabled={loading} className="broadcast-button">
                     {loading ? '⏳ Отправка...' : '📨 Отправить'}
                 </button>
