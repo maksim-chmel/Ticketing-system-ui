@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
-import { login } from "../../api"; // убедись, что login возвращает { accessToken }
+import { login } from "../../api"; 
 
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState("");
@@ -20,11 +20,11 @@ const LoginPage: React.FC = () => {
                 localStorage.setItem("token", data.accessToken);
                 navigate("/");
             } else {
-                setError("Ответ сервера некорректен: токен не получен");
+                setError("Invalid server response: token not received");
             }
         } catch (err) {
-            console.error("Ошибка при входе:", err);
-            setError("Неверный логин или пароль");
+            console.error("Login error:", err);
+            setError("Invalid username or password");
         }
     };
 

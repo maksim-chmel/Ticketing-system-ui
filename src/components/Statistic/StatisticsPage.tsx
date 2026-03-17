@@ -70,8 +70,8 @@ const StatisticsPage: React.FC = () => {
                                 </Pie>
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: "#222",  // тёмный фон
-                                        color: "#fff",            // белый текст
+                                        backgroundColor: "#222",  
+                                        color: "#fff",            
                                         border: "none",
                                         borderRadius: "8px",
                                         boxShadow: "0 2px 10px rgba(0,0,0,0.7)",
@@ -79,9 +79,9 @@ const StatisticsPage: React.FC = () => {
                                         fontSize: "0.9rem"
                                     }}
                                     itemStyle={{
-                                        color: "#fff"             // белый цвет для текста внутри тултипа
+                                        color: "#fff"             
                                     }}
-                                    cursor={{ fill: "rgba(255, 255, 255, 0.2)" }} // подсветка по наведению
+                                    cursor={{ fill: "rgba(255, 255, 255, 0.2)" }} 
                                 />
                             </PieChart>
                         </div>
@@ -127,8 +127,8 @@ const StatisticsPage: React.FC = () => {
                             />
                             <Tooltip
                                 contentStyle={{
-                                    backgroundColor: "#222",  // тёмный фон
-                                    color: "#fff",            // белый текст
+                                    backgroundColor: "#222",  
+                                    color: "#fff",            
                                     border: "none",
                                     borderRadius: "8px",
                                     boxShadow: "0 2px 10px rgba(0,0,0,0.7)",
@@ -136,9 +136,9 @@ const StatisticsPage: React.FC = () => {
                                     fontSize: "0.9rem"
                                 }}
                                 itemStyle={{
-                                    color: "#fff"             // белый цвет для текста внутри тултипа
+                                    color: "#fff"             
                                 }}
-                                cursor={{ fill: "rgba(255, 255, 255, 0.2)" }} // подсветка по наведению
+                                cursor={{ fill: "rgba(255, 255, 255, 0.2)" }} 
                             />
                             <Legend wrapperStyle={{ color: "#ffffff" }} />
                             <Line

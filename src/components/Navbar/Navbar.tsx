@@ -15,39 +15,39 @@ const Navbar: React.FC = () => {
 
     return (
         <nav className="navbar">
-            <div className="navbar-logo">🔧 ITSM Панель</div>
+            <div className="navbar-logo">🔧 ITSM Panel</div>
             <div className="navbar-buttons">
                 <button
                     className={`nav-button ${isActive("/feedback") ? "active" : ""}`}
                     onClick={() => navigate("/feedback")}
                     type="button"
                 >
-                    💬 Заявки
+                    💬 Tickets
                 </button>
                 <button
                     className={`nav-button ${isActive("/stats") ? "active" : ""}`}
                     onClick={() => navigate("/stats")}
                     type="button"
                 >
-                    📊 Статистика
+                    📊 Statistics
                 </button>
                 <button
                     className={`nav-button ${isActive("/users") ? "active" : ""}`}
                     onClick={() => navigate("/users")}
                     type="button"
                 >
-                    👥 Пользователи
+                    👥 Users
                 </button>
                 <button
                     className={`nav-button ${isActive("/broadcast") ? "active" : ""}`}
                     onClick={() => navigate("/broadcast")}
                     type="button"
                 >
-                    📣 Рассылка
+                    📣 Broadcast
                 </button>
             </div>
             <button className="logout-button" onClick={handleLogout} type="button">
-                🚪 Выйти
+                🚪 Logout
             </button>
         </nav>
     );

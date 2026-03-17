@@ -15,10 +15,10 @@ function App() {
         <div className="App">
             <Router>
                 <Routes>
-                    {/* Страница логина вне общего макета */}
+                    {}
                     <Route path="/login" element={<LoginPage />} />
 
-                    {/* Все защищённые маршруты внутри MainLayout */}
+                    {}
                     <Route
                         path="/"
                         element={

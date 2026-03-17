@@ -3,7 +3,7 @@
     text-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.6);
 }
 
-/* Заголовки */
+
 h2, h5 {
     font-weight: 700;
     color: #ffffff;
@@ -12,7 +12,7 @@ h2, h5 {
     text-shadow: 0 0 0.35rem rgba(0, 0, 0, 0.7);
 }
 
-/* Обёртка диаграммы */
+
 .chart-wrapper {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(12px);
@@ -24,13 +24,13 @@ h2, h5 {
     color: #ffffff;
 }
 
-/* При наведении */
+
 .chart-wrapper:hover {
     transform: translateY(-4px);
     box-shadow: 0 1.5rem 2.5rem rgba(0, 0, 0, 0.4);
 }
 
-/* Легенда */
+
 .pie-legend {
     list-style: none;
     padding: 0;
@@ -54,7 +54,7 @@ h2, h5 {
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
 }
 
-/* Сетка графиков */
+
 .chart-grid {
     display: flex;
     flex-wrap: wrap;
@@ -63,7 +63,7 @@ h2, h5 {
     margin-top: 2rem;
 }
 
-/* Элемент графика */
+
 .chart-item {
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
@@ -78,12 +78,12 @@ h2, h5 {
     color: #ffffff;
 }
 
-/* Hover */
+
 .chart-item:hover {
     transform: scale(1.02);
 }
 
-/* Кнопка Назад */
+
 .back-button {
     display: inline-block;
     padding: 0.7rem 1.2rem;
@@ -106,7 +106,7 @@ h2, h5 {
     box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.3);
 }
 
-/* 📱 Адаптив */
+
 @media (max-width: 600px) {
     .chart-grid {
         flex-direction: column;

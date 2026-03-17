@@ -1,4 +1,4 @@
-// src/api.ts
+
 import axiosInstance from "./axiosInstance";
 import BASE_URL from "./config";
 import axios from "axios";
@@ -13,7 +13,7 @@ export const login = async (
         { withCredentials: true }
     );
 
-    return response.data; // должен содержать { accessToken }
+    return response.data; 
 };
 export const fetchStatusDistribution = async () => {
     const response = await axiosInstance.get("/statistics/status-distribution");

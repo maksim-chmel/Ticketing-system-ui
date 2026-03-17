@@ -3,10 +3,10 @@ import BASE_URL from "./config";
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
-    withCredentials: true // нужно, чтобы куки (refreshToken) отправлялись автоматически
+    withCredentials: true 
 });
 
-// Добавляем access token в каждый запрос
+
 axiosInstance.interceptors.request.use(config => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use(config => {
     return config;
 });
 
-// Перехватываем 401 и пробуем обновить токен
+
 axiosInstance.interceptors.response.use(
     response => response,
     async error => {
@@ -31,9 +31,9 @@ axiosInstance.interceptors.response.use(
                 localStorage.setItem("token", newToken);
 
                 originalRequest.headers.Authorization = `Bearer ${newToken}`;
-                return axiosInstance(originalRequest); // повторный запрос
+                return axiosInstance(originalRequest); 
             } catch (refreshError) {
-                console.error("🔒 Не удалось обновить токен:", refreshError);
+                console.error("🔒 Error refreshing token:", refreshError);
                 localStorage.removeItem("token");
                 window.location.href = "/login";
             }

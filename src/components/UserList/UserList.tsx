@@ -18,7 +18,7 @@ const UserList: React.FC = () => {
     const [editingUserId, setEditingUserId] = useState<number | null>(null);
     const [editingComments, setEditingComments] = useState<Record<number, string>>({});
 
-    // Для уведомлений
+   
     const [notification, setNotification] = useState<string | null>(null);
     const [notificationType, setNotificationType] = useState<"success" | "error" | null>(null);
 
@@ -77,7 +77,7 @@ const UserList: React.FC = () => {
         }
     };
 
-    // Функция показа уведомления с автоскрытием
+    
     const showNotification = (message: string, type: "success" | "error") => {
         setNotification(message);
         setNotificationType(type);

@@ -2,7 +2,7 @@
     max-width: 90%;
     margin: 2rem auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #f0f0f5; /* Светлый текст */
+    color: #f0f0f5;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
@@ -11,7 +11,7 @@
     margin-bottom: 2rem;
     font-weight: 700;
     font-size: 1.8rem;
-    color: #e0dfff; /* Светло-фиолетовый */
+    color: #e0dfff; 
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
 }
 
@@ -155,10 +155,10 @@
         padding: 6px 12px;
     }
 }
-/* Уведомление */
+
 .notification {
     position: fixed;
-    top: 20px;             /* чуть ниже верхнего края */
+    top: 20px;             
     left: 50%;
     transform: translateX(-50%);
     padding: 16px 24px;
@@ -197,7 +197,7 @@
         transform: translateX(-50%) translateY(-20px);
     }
 }
-/* Кнопки */
+
 .btn {
     cursor: pointer;
     background: transparent;

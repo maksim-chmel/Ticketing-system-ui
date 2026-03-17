@@ -11,7 +11,7 @@ const BroadcastMessageForm: React.FC = () => {
         e.preventDefault();
 
         if (!message.trim()) {
-            setStatus('Сообщение не может быть пустым.');
+            setStatus('Message cannot be empty.');
             return;
         }
 
@@ -24,9 +24,9 @@ const BroadcastMessageForm: React.FC = () => {
             setMessage('');
         } catch (error: any) {
             if (error.response?.data) {
-                setStatus(`Ошибка: ${error.response.data}`);
+                setStatus(`Error: ${error.response.data}`);
             } else {
-                setStatus(`Ошибка сети: ${error.message || error.toString()}`);
+                setStatus(`Net error: ${error.message || error.toString()}`);
             }
         }
 
@@ -46,7 +46,7 @@ const BroadcastMessageForm: React.FC = () => {
             disabled={loading}
         />
                 <button type="submit" disabled={loading} className="broadcast-button">
-                    {loading ? '⏳ Отправка...' : '📨 Отправить'}
+                    {loading ? '⏳ Sending...' : '📨 Send'}
                 </button>
             </form>
             {status && <p className="broadcast-status">{status}</p>}

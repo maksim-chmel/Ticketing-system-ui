@@ -60,7 +60,7 @@
     background-color: #d32f2f !important;
 }
 
-/* 📱 Мобильная адаптация */
+
 @media (max-width: 600px) {
     .glass-navbar {
         padding: 1rem;

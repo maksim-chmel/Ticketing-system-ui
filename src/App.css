@@ -30,9 +30,9 @@
   box-sizing: border-box;
 
   background: linear-gradient(270deg,
-  #2a4d8f,  /* темно-синий */
-  #1b2e5a,  /* глубокий темный синий */
-  #254b9a,  /* насыщенный темно-синий */
+  #2a4d8f,  
+  #1b2e5a,  
+  #254b9a,  
   #1b2e5a,
   #2a4d8f,
   #254b9a
@@ -68,7 +68,7 @@
   animation: pulseBlur 6s ease-in-out infinite;
 }
 
-/* 📱 Мобильные стили */
+
 @media (max-width: 480px) {
   .App {
     padding: 6% 4%;
