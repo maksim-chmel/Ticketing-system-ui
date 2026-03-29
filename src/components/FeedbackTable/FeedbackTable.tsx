@@ -11,8 +11,8 @@ import {
 const statusMap: Record<FeedbackStatus, string> = {
     [FeedbackStatus.Open]: "Открыта",
     [FeedbackStatus.InProgress]: "В обработке",
-    [FeedbackStatus.WaitingForReply]: "Ожидает ответа",
-    [FeedbackStatus.Closed]: "Закрыта",
+    [FeedbackStatus.Waiting]: "Ожидает ответа",
+    [FeedbackStatus.Done]: "Закрыта",
     [FeedbackStatus.Rejected]: "Отклонена"
 };
 
@@ -64,33 +64,32 @@ const FeedbackTable = () => {
     );
 
     const renderActions = (fb: Feedback) => {
-        switch (fb.status) {
-            case FeedbackStatus.Open:
-                return (
-                    <>
-                        <ActionButton icon="play_arrow" label="В обработке" onClick={() => updateStatus(fb.id, FeedbackStatus.InProgress)} />
-                        <ActionButton icon="close" label="Отклонить" onClick={() => updateStatus(fb.id, FeedbackStatus.Rejected)} />
-                    </>
-                );
-            case FeedbackStatus.InProgress:
-                return (
-                    <>
-                        <ActionButton icon="hourglass_top" label="Ожидает ответа" onClick={() => updateStatus(fb.id, FeedbackStatus.WaitingForReply)} />
-                        <ActionButton icon="done" label="Закрыть" onClick={() => updateStatus(fb.id, FeedbackStatus.Closed)} />
-                    </>
-                );
-            case FeedbackStatus.WaitingForReply:
-                return (
-                    <>
-                        <ActionButton icon="done" label="Закрыть" onClick={() => updateStatus(fb.id, FeedbackStatus.Closed)} />
-                        <ActionButton icon="close" label="Отклонить" onClick={() => updateStatus(fb.id, FeedbackStatus.Rejected)} />
-                    </>
-                );
-            default:
-                return null;
-        }
-    };
-
+    switch (fb.status) {
+        case FeedbackStatus.Open:
+            return (
+                <>
+                    <ActionButton icon="play_arrow" label="В обработке" onClick={() => updateStatus(fb.id, FeedbackStatus.InProgress)} />
+                    <ActionButton icon="close" label="Отклонить" onClick={() => updateStatus(fb.id, FeedbackStatus.Rejected)} />
+                </>
+            );
+        case FeedbackStatus.InProgress:
+            return (
+                <>
+                    <ActionButton icon="hourglass_top" label="Ожидает ответа" onClick={() => updateStatus(fb.id, FeedbackStatus.Waiting)} />
+                    <ActionButton icon="done" label="Закрыть" onClick={() => updateStatus(fb.id, FeedbackStatus.Done)} />
+                </>
+            );
+        case FeedbackStatus.Waiting:
+            return (
+                <>
+                    <ActionButton icon="done" label="Закрыть" onClick={() => updateStatus(fb.id, FeedbackStatus.Done)} />
+                    <ActionButton icon="close" label="Отклонить" onClick={() => updateStatus(fb.id, FeedbackStatus.Rejected)} />
+                </>
+            );
+        default:
+            return null;
+    }
+};
     const filteredFeedbacks = feedbacks
         .filter(fb => {
             if (statusFilter === "all") return true;
