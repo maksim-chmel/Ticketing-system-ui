@@ -28,8 +28,8 @@ export const fetchRequestsOverTime = async () => {
 export enum FeedbackStatus {
     Open = 0,
     InProgress = 1,
-    WaitingForReply = 2,
-    Closed = 3,
+    Waiting = 2,
+    Done = 3,
     Rejected = 4
 }
 
