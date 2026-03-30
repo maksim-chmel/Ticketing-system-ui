@@ -51,7 +51,7 @@ const StatisticsPage: React.FC = () => {
 
                     <div className="chart-item" style={{ display: "flex", alignItems: "center", gap: "24px" }}>
                         <div>
-                            <h5>Распределение по статусам</h5>
+                            <h5>Status Distribution</h5>
                             <PieChart width={300} height={300}>
                                 <Pie
                                     data={dataStatus}
@@ -70,8 +70,8 @@ const StatisticsPage: React.FC = () => {
                                 </Pie>
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: "#222",  
-                                        color: "#fff",            
+                                        backgroundColor: "#222",
+                                        color: "#fff",
                                         border: "none",
                                         borderRadius: "8px",
                                         boxShadow: "0 2px 10px rgba(0,0,0,0.7)",
@@ -79,9 +79,9 @@ const StatisticsPage: React.FC = () => {
                                         fontSize: "0.9rem"
                                     }}
                                     itemStyle={{
-                                        color: "#fff"             
+                                        color: "#fff"
                                     }}
-                                    cursor={{ fill: "rgba(255, 255, 255, 0.2)" }} 
+                                    cursor={{ fill: "rgba(255, 255, 255, 0.2)" }}
                                 />
                             </PieChart>
                         </div>
@@ -89,7 +89,7 @@ const StatisticsPage: React.FC = () => {
                     </div>
 
                     <div className="chart-item">
-                        <h5>Количество заявок по дням</h5>
+                        <h5>Tickets per Day</h5>
                         <BarChart width={400} height={300} data={dataOverTime}>
                             <XAxis
                                 dataKey="date"
@@ -113,7 +113,7 @@ const StatisticsPage: React.FC = () => {
                     </div>
 
                     <div className="chart-item" style={{ flexBasis: "100%" }}>
-                        <h5>Динамика заявок за период</h5>
+                        <h5>Ticket Trend Over Time</h5>
                         <LineChart width={800} height={300} data={dataOverTime}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
                             <XAxis
@@ -127,8 +127,8 @@ const StatisticsPage: React.FC = () => {
                             />
                             <Tooltip
                                 contentStyle={{
-                                    backgroundColor: "#222",  
-                                    color: "#fff",            
+                                    backgroundColor: "#222",
+                                    color: "#fff",
                                     border: "none",
                                     borderRadius: "8px",
                                     boxShadow: "0 2px 10px rgba(0,0,0,0.7)",
@@ -136,9 +136,9 @@ const StatisticsPage: React.FC = () => {
                                     fontSize: "0.9rem"
                                 }}
                                 itemStyle={{
-                                    color: "#fff"             
+                                    color: "#fff"
                                 }}
-                                cursor={{ fill: "rgba(255, 255, 255, 0.2)" }} 
+                                cursor={{ fill: "rgba(255, 255, 255, 0.2)" }}
                             />
                             <Legend wrapperStyle={{ color: "#ffffff" }} />
                             <Line

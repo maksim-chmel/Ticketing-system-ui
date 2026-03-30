@@ -9,11 +9,11 @@ import {
 } from "../../api";
 
 const statusMap: Record<FeedbackStatus, string> = {
-    [FeedbackStatus.Open]: "Открыта",
-    [FeedbackStatus.InProgress]: "В обработке",
-    [FeedbackStatus.Waiting]: "Ожидает ответа",
-    [FeedbackStatus.Done]: "Закрыта",
-    [FeedbackStatus.Rejected]: "Отклонена"
+    [FeedbackStatus.Open]: "Open",
+    [FeedbackStatus.InProgress]: "In Progress",
+    [FeedbackStatus.Waiting]: "Waiting for Reply",
+    [FeedbackStatus.Done]: "Closed",
+    [FeedbackStatus.Rejected]: "Rejected"
 };
 
 const FeedbackTable = () => {
@@ -31,7 +31,7 @@ const FeedbackTable = () => {
             const data = await fetchFeedbacks();
             setFeedbacks(data);
         } catch (error) {
-            console.error("Ошибка загрузки заявок", error);
+            console.error("Failed to load tickets", error);
         }
     };
 
@@ -42,13 +42,13 @@ const FeedbackTable = () => {
                 prev.map(fb => fb.id === id ? { ...fb, status: newStatus } : fb)
             );
         } catch (error) {
-            console.error("Ошибка при обновлении статуса", error);
+            console.error("Failed to update status", error);
         }
     };
 
     const formatDate = (dateStr: string) => {
         const date = new Date(dateStr);
-        return isNaN(date.getTime()) ? "Неверная дата" : date.toLocaleDateString("ru-RU");
+        return isNaN(date.getTime()) ? "Invalid date" : date.toLocaleDateString("en-GB");
     };
 
     type ActionButtonProps = {
@@ -64,32 +64,33 @@ const FeedbackTable = () => {
     );
 
     const renderActions = (fb: Feedback) => {
-    switch (fb.status) {
-        case FeedbackStatus.Open:
-            return (
-                <>
-                    <ActionButton icon="play_arrow" label="В обработке" onClick={() => updateStatus(fb.id, FeedbackStatus.InProgress)} />
-                    <ActionButton icon="close" label="Отклонить" onClick={() => updateStatus(fb.id, FeedbackStatus.Rejected)} />
-                </>
-            );
-        case FeedbackStatus.InProgress:
-            return (
-                <>
-                    <ActionButton icon="hourglass_top" label="Ожидает ответа" onClick={() => updateStatus(fb.id, FeedbackStatus.Waiting)} />
-                    <ActionButton icon="done" label="Закрыть" onClick={() => updateStatus(fb.id, FeedbackStatus.Done)} />
-                </>
-            );
-        case FeedbackStatus.Waiting:
-            return (
-                <>
-                    <ActionButton icon="done" label="Закрыть" onClick={() => updateStatus(fb.id, FeedbackStatus.Done)} />
-                    <ActionButton icon="close" label="Отклонить" onClick={() => updateStatus(fb.id, FeedbackStatus.Rejected)} />
-                </>
-            );
-        default:
-            return null;
-    }
-};
+        switch (fb.status) {
+            case FeedbackStatus.Open:
+                return (
+                    <>
+                        <ActionButton icon="play_arrow" label="In Progress" onClick={() => updateStatus(fb.id, FeedbackStatus.InProgress)} />
+                        <ActionButton icon="close" label="Reject" onClick={() => updateStatus(fb.id, FeedbackStatus.Rejected)} />
+                    </>
+                );
+            case FeedbackStatus.InProgress:
+                return (
+                    <>
+                        <ActionButton icon="hourglass_top" label="Waiting for Reply" onClick={() => updateStatus(fb.id, FeedbackStatus.Waiting)} />
+                        <ActionButton icon="done" label="Close" onClick={() => updateStatus(fb.id, FeedbackStatus.Done)} />
+                    </>
+                );
+            case FeedbackStatus.Waiting:
+                return (
+                    <>
+                        <ActionButton icon="done" label="Close" onClick={() => updateStatus(fb.id, FeedbackStatus.Done)} />
+                        <ActionButton icon="close" label="Reject" onClick={() => updateStatus(fb.id, FeedbackStatus.Rejected)} />
+                    </>
+                );
+            default:
+                return null;
+        }
+    };
+
     const filteredFeedbacks = feedbacks
         .filter(fb => {
             if (statusFilter === "all") return true;
@@ -111,7 +112,7 @@ const FeedbackTable = () => {
                 className={`status-filter-btn ${statusFilter === "all" ? "active" : ""}`}
                 onClick={() => setStatusFilter("all")}
             >
-                Все
+                All
             </button>
             {(Object.keys(statusMap) as unknown as Array<keyof typeof statusMap>).map(key => {
                 const status = Number(key) as FeedbackStatus;
@@ -135,7 +136,7 @@ const FeedbackTable = () => {
             <div className="search-container">
                 <input
                     type="text"
-                    placeholder="Поиск по ID, имени, телефону..."
+                    placeholder="Search by ID, name, phone..."
                     className="search-input"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -149,17 +150,17 @@ const FeedbackTable = () => {
                 <tr>
                     <th>ID</th>
                     <th>User ID</th>
-                    <th>Имя / Телефон</th>
-                    <th>Комментарий</th>
-                    <th>Дата</th>
-                    <th>Статус</th>
-                    <th>Действия</th>
+                    <th>Name / Phone</th>
+                    <th>Comment</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {filteredFeedbacks.length === 0 ? (
                     <tr>
-                        <td colSpan={7} className="no-data">Нет данных</td>
+                        <td colSpan={7} className="no-data">No data</td>
                     </tr>
                 ) : (
                     filteredFeedbacks.map(fb => (
@@ -193,7 +194,7 @@ const FeedbackTable = () => {
                 <div className="modal-overlay" onClick={() => setSelectedComment(null)}>
                     <div className="modal-content" onClick={e => e.stopPropagation()}>
                         <span className="close-button" onClick={() => setSelectedComment(null)}>&times;</span>
-                        <h3>Полный текст заявки</h3>
+                        <h3>Full ticket text</h3>
                         <p>{selectedComment}</p>
                     </div>
                 </div>

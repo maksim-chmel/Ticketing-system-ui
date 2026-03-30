@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
-import { login } from "../../api"; 
+import { login } from "../../api";
 
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState("");
@@ -30,11 +30,11 @@ const LoginPage: React.FC = () => {
 
     return (
         <div className="glass-login-container">
-            <h2 className="glass-login-title">Вход</h2>
+            <h2 className="glass-login-title">Login</h2>
             <form onSubmit={handleLogin} className="glass-login-form">
                 <input
                     type="text"
-                    placeholder="Логин"
+                    placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="glass-input"
@@ -42,13 +42,13 @@ const LoginPage: React.FC = () => {
                 />
                 <input
                     type="password"
-                    placeholder="Пароль"
+                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="glass-input"
                     required
                 />
-                <button type="submit" className="glass-button">Войти</button>
+                <button type="submit" className="glass-button">Sign In</button>
                 {error && <p className="glass-error">{error}</p>}
             </form>
         </div>

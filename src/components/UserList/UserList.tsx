@@ -18,7 +18,6 @@ const UserList: React.FC = () => {
     const [editingUserId, setEditingUserId] = useState<number | null>(null);
     const [editingComments, setEditingComments] = useState<Record<number, string>>({});
 
-   
     const [notification, setNotification] = useState<string | null>(null);
     const [notificationType, setNotificationType] = useState<"success" | "error" | null>(null);
 
@@ -31,7 +30,7 @@ const UserList: React.FC = () => {
             const res = await axiosInstance.get<UserDto[]>("/user/users-to-list");
             setUsers(res.data);
         } catch {
-            setError("Ошибка при загрузке пользователей");
+            setError("Failed to load users");
         } finally {
             setLoading(false);
         }
@@ -71,13 +70,12 @@ const UserList: React.FC = () => {
                 )
             );
             cancelEditing();
-            showNotification("Комментарий сохранён", "success");
+            showNotification("Comment saved", "success");
         } catch {
-            showNotification("Ошибка при сохранении комментария", "error");
+            showNotification("Failed to save comment", "error");
         }
     };
 
-    
     const showNotification = (message: string, type: "success" | "error") => {
         setNotification(message);
         setNotificationType(type);
@@ -87,7 +85,7 @@ const UserList: React.FC = () => {
         }, 3500);
     };
 
-    if (loading) return <p>⏳ Загрузка...</p>;
+    if (loading) return <p>⏳ Loading...</p>;
     if (error) return <p style={{ color: "red" }}>{error}</p>;
 
     return (
@@ -100,12 +98,12 @@ const UserList: React.FC = () => {
             <table>
                 <thead>
                 <tr>
-                    <th>Имя</th>
-                    <th>Фамилия</th>
-                    <th>Логин</th>
-                    <th>Телефон</th>
-                    <th>Комментарий</th>
-                    <th>Действия</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                    <th>Phone</th>
+                    <th>Comment</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -130,11 +128,11 @@ const UserList: React.FC = () => {
                         <td>
                             {editingUserId === user.userId ? (
                                 <>
-                                    <button className="btn save-btn" onClick={saveComment} title="Сохранить">💾</button>
-                                    <button className="btn cancel-btn" onClick={cancelEditing} title="Отмена" style={{ marginLeft: 8 }}>❌</button>
+                                    <button className="btn save-btn" onClick={saveComment} title="Save">💾</button>
+                                    <button className="btn cancel-btn" onClick={cancelEditing} title="Cancel" style={{ marginLeft: 8 }}>❌</button>
                                 </>
                             ) : (
-                                <button className="btn edit-btn" onClick={() => startEditing(user)} title="Редактировать">✏️</button>
+                                <button className="btn edit-btn" onClick={() => startEditing(user)} title="Edit">✏️</button>
                             )}
                         </td>
                     </tr>

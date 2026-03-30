@@ -35,13 +35,13 @@ const BroadcastMessageForm: React.FC = () => {
 
     return (
         <div className="broadcast-container">
-            <h2 className="broadcast-title">📢 Рассылка пользователям</h2>
+            <h2 className="broadcast-title">📢 Broadcast to users</h2>
             <form onSubmit={handleSubmit} className="broadcast-form">
         <textarea
             rows={5}
             value={message}
             onChange={e => setMessage(e.target.value)}
-            placeholder="Введите сообщение для рассылки..."
+            placeholder="Enter your message..."
             className="broadcast-textarea"
             disabled={loading}
         />
