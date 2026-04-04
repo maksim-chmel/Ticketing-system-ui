@@ -1,13 +1,15 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
 import "./Navbar.css";
 
 const Navbar: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { signOut } = useAuth();
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        signOut();
         navigate("/login");
     };
 
@@ -15,7 +17,10 @@ const Navbar: React.FC = () => {
 
     return (
         <nav className="navbar">
-            <div className="navbar-logo">🔧 ITSM Panel</div>
+            <div className="navbar-brand">
+                <div className="navbar-logo">ITSM Panel</div>
+                <div className="navbar-caption">Coordinator workspace</div>
+            </div>
             <div className="navbar-buttons">
                 <button
                     className={`nav-button ${isActive("/feedback") ? "active" : ""}`}
@@ -47,7 +52,7 @@ const Navbar: React.FC = () => {
                 </button>
             </div>
             <button className="logout-button" onClick={handleLogout} type="button">
-                🚪 Logout
+                Logout
             </button>
         </nav>
     );

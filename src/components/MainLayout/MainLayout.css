@@ -1,0 +1,15 @@
+main {
+    position: relative;
+    z-index: 1;
+    width: min(1360px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 108px 0 40px;
+}
+
+@media (max-width: 768px) {
+    main {
+        width: min(100%, calc(100% - 20px));
+        padding-top: 144px;
+        padding-bottom: 24px;
+    }
+}

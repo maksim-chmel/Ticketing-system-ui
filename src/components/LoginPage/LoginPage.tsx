@@ -1,36 +1,50 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import "./LoginPage.css";
-import { login } from "../../api";
+import { useAuth } from "../../auth/AuthContext";
+import AppNotice from "../Common/AppNotice";
+import { getErrorMessage } from "../../utils/getErrorMessage";
 
 const LoginPage: React.FC = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const { isAuthenticated, isLoading, signIn } = useAuth();
+
+    if (isLoading) {
+        return (
+            <div className="glass-login-container">
+                <AppNotice
+                    title="Checking session"
+                    message="Restoring your authorization state."
+                    variant="info"
+                />
+            </div>
+        );
+    }
+
+    if (isAuthenticated) {
+        return <Navigate to="/feedback" replace />;
+    }
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
 
         try {
-            const data = await login(username, password);
-
-            if (data?.accessToken) {
-                localStorage.setItem("token", data.accessToken);
-                navigate("/");
-            } else {
-                setError("Invalid server response: token not received");
-            }
+            await signIn(username, password);
+            navigate("/feedback", { replace: true });
         } catch (err) {
-            console.error("Login error:", err);
-            setError("Invalid username or password");
+            setError(getErrorMessage(err, "Invalid username or password"));
         }
     };
 
     return (
         <div className="glass-login-container">
-            <h2 className="glass-login-title">Login</h2>
+            <div className="glass-login-badge">Admin access</div>
+            <h2 className="glass-login-title">Sign in to the control panel</h2>
+            <p className="glass-login-subtitle">Manage tickets, operators, users and broadcast messages from one place.</p>
             <form onSubmit={handleLogin} className="glass-login-form">
                 <input
                     type="text"
@@ -49,7 +63,14 @@ const LoginPage: React.FC = () => {
                     required
                 />
                 <button type="submit" className="glass-button">Sign In</button>
-                {error && <p className="glass-error">{error}</p>}
+                {error && (
+                    <AppNotice
+                        title="Login failed"
+                        message={error}
+                        variant="error"
+                        className="glass-error"
+                    />
+                )}
             </form>
         </div>
     );

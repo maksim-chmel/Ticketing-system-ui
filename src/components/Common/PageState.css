@@ -1,0 +1,12 @@
+.page-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 240px;
+    width: 100%;
+}
+
+.page-state-notice {
+    width: min(100%, 560px);
+    box-shadow: var(--shadow-lg);
+}

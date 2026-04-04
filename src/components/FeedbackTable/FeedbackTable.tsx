@@ -1,55 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./FeedbackTable.css";
 
-import {
-    fetchFeedbacks,
-    updateFeedbackStatus,
-    Feedback,
-    FeedbackStatus
-} from "../../api";
-
-const statusMap: Record<FeedbackStatus, string> = {
-    [FeedbackStatus.Open]: "Open",
-    [FeedbackStatus.InProgress]: "In Progress",
-    [FeedbackStatus.Waiting]: "Waiting for Reply",
-    [FeedbackStatus.Done]: "Closed",
-    [FeedbackStatus.Rejected]: "Rejected"
-};
+import { Feedback, FeedbackStatus } from "../../api";
+import AppNotice from "../Common/AppNotice";
+import PageState from "../Common/PageState";
+import { useFeedbackTable } from "../../hooks/useFeedbackTable";
 
 const FeedbackTable = () => {
-    const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
-    const [statusFilter, setStatusFilter] = useState<FeedbackStatus | "all">("all");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedComment, setSelectedComment] = useState<string | null>(null);
-
-    useEffect(() => {
-        loadFeedbacks();
-    }, []);
-
-    const loadFeedbacks = async () => {
-        try {
-            const data = await fetchFeedbacks();
-            setFeedbacks(data);
-        } catch (error) {
-            console.error("Failed to load tickets", error);
-        }
-    };
-
-    const updateStatus = async (id: number, newStatus: FeedbackStatus) => {
-        try {
-            await updateFeedbackStatus(id, newStatus);
-            setFeedbacks(prev =>
-                prev.map(fb => fb.id === id ? { ...fb, status: newStatus } : fb)
-            );
-        } catch (error) {
-            console.error("Failed to update status", error);
-        }
-    };
-
-    const formatDate = (dateStr: string) => {
-        const date = new Date(dateStr);
-        return isNaN(date.getTime()) ? "Invalid date" : date.toLocaleDateString("en-GB");
-    };
+    const {
+        error,
+        filteredFeedbacks,
+        formatDate,
+        loadFeedbacks,
+        loading,
+        searchQuery,
+        selectedComment,
+        setSearchQuery,
+        setSelectedComment,
+        setStatusFilter,
+        statusFilter,
+        statusMap,
+        updateStatus,
+    } = useFeedbackTable();
 
     type ActionButtonProps = {
         icon: string;
@@ -91,21 +63,6 @@ const FeedbackTable = () => {
         }
     };
 
-    const filteredFeedbacks = feedbacks
-        .filter(fb => {
-            if (statusFilter === "all") return true;
-            return fb.status === statusFilter;
-        })
-        .filter(fb => {
-            const query = searchQuery.toLowerCase();
-            return (
-                fb.id.toString().includes(query) ||
-                fb.userId?.toString().includes(query) ||
-                fb.username?.toLowerCase().includes(query) ||
-                fb.phone?.toLowerCase().includes(query)
-            );
-        });
-
     const StatusFilterButtons = () => (
         <div className="status-filter-buttons">
             <button
@@ -132,6 +89,24 @@ const FeedbackTable = () => {
 
     return (
         <div className="feedback-container">
+            <div className="feedback-page-head">
+                <div>
+                    <div className="feedback-eyebrow">Ticket management</div>
+                    <h1>Support tickets</h1>
+                    <p className="feedback-subtitle">Filter requests, inspect full comments and move tickets through the processing flow.</p>
+                </div>
+            </div>
+
+            {error && (
+                <AppNotice
+                    title="Ticket data unavailable"
+                    message={error}
+                    variant="error"
+                    actionLabel="Try again"
+                    onAction={() => void loadFeedbacks()}
+                    className="feedback-error"
+                />
+            )}
 
             <div className="search-container">
                 <input
@@ -145,57 +120,63 @@ const FeedbackTable = () => {
 
             <StatusFilterButtons />
 
-            <table className="feedback-table">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>User ID</th>
-                    <th>Name / Phone</th>
-                    <th>Comment</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {filteredFeedbacks.length === 0 ? (
-                    <tr>
-                        <td colSpan={7} className="no-data">No data</td>
-                    </tr>
-                ) : (
-                    filteredFeedbacks.map(fb => (
-                        <tr key={fb.id}>
-                            <td>{fb.id}</td>
-                            <td>{fb.userId}</td>
-                            <td className="user-phone-cell" title={`${fb.username ?? "—"} / ${fb.phone ?? "—"}`}>
-                                <div className="username">{fb.username ?? "—"}</div>
-                                <div className="phone">{fb.phone ?? "—"}</div>
-                            </td>
-                            <td
-                                className="ellipsis comment-clickable"
-                                onClick={() => setSelectedComment(fb.comment)}
-                            >
-                                {fb.comment.length > 60 ? fb.comment.slice(0, 60) + "..." : fb.comment}
-                            </td>
-                            <td>{formatDate(fb.date)}</td>
-                            <td>
-                                <span className={`status-badge status-${FeedbackStatus[fb.status].toLowerCase()}`}>
-                                    {statusMap[fb.status]}
-                                </span>
-                            </td>
-                            <td>{renderActions(fb)}</td>
+            {loading ? (
+                <PageState title="Loading" message="Tickets are loading. Please wait." />
+            ) : (
+                <div className="table-shell">
+                    <table className="feedback-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User ID</th>
+                            <th>Name / Phone</th>
+                            <th>Comment</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
-                    ))
-                )}
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                        {filteredFeedbacks.length === 0 ? (
+                            <tr>
+                                <td colSpan={7} className="no-data">No data</td>
+                            </tr>
+                        ) : (
+                            filteredFeedbacks.map(fb => (
+                                <tr key={fb.id}>
+                                    <td>{fb.id}</td>
+                                    <td>{fb.userId}</td>
+                                    <td className="user-phone-cell" title={`${fb.username ?? "—"} / ${fb.phone ?? "—"}`}>
+                                        <div className="username">{fb.username ?? "—"}</div>
+                                        <div className="phone">{fb.phone ?? "—"}</div>
+                                    </td>
+                                    <td
+                                        className="ellipsis comment-clickable"
+                                        onClick={() => setSelectedComment(fb.comment ?? "")}
+                                    >
+                                        {(fb.comment ?? "").length > 60 ? `${(fb.comment ?? "").slice(0, 60)}...` : (fb.comment ?? "—")}
+                                    </td>
+                                    <td>{formatDate(fb.date)}</td>
+                                    <td>
+                                        <span className={`status-badge status-${FeedbackStatus[fb.status].toLowerCase()}`}>
+                                            {statusMap[fb.status]}
+                                        </span>
+                                    </td>
+                                    <td>{renderActions(fb)}</td>
+                                </tr>
+                            ))
+                        )}
+                        </tbody>
+                    </table>
+                </div>
+            )}
 
-            {selectedComment && (
+            {selectedComment !== null && (
                 <div className="modal-overlay" onClick={() => setSelectedComment(null)}>
                     <div className="modal-content" onClick={e => e.stopPropagation()}>
                         <span className="close-button" onClick={() => setSelectedComment(null)}>&times;</span>
                         <h3>Full ticket text</h3>
-                        <p>{selectedComment}</p>
+                        <p>{selectedComment || "—"}</p>
                     </div>
                 </div>
             )}

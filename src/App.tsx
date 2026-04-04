@@ -1,7 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import "./App.css";
+import AppErrorBoundary from "./components/Common/AppErrorBoundary";
 import LoginPage from "./components/LoginPage/LoginPage";
 import FeedbackTable from "./components/FeedbackTable/FeedbackTable";
 import StatsPage from "./components/Statistic/StatisticsPage";
@@ -12,29 +13,31 @@ import BroadcastForm from "./components/BroadcastForm/BroadcastForm";
 
 function App() {
     return (
-        <div className="App">
-            <Router>
-                <Routes>
-                    {}
-                    <Route path="/login" element={<LoginPage />} />
+        <AppErrorBoundary>
+            <div className="App">
+                <Router>
+                    <Routes>
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route
+                            path="/"
+                            element={
+                                <ProtectedRoute>
+                                    <MainLayout />
+                                </ProtectedRoute>
+                            }
+                        >
+                            <Route index element={<Navigate to="/feedback" replace />} />
+                            <Route path="feedback" element={<FeedbackTable />} />
+                            <Route path="stats" element={<StatsPage />} />
+                            <Route path="users" element={<UserList />} />
+                            <Route path="broadcast" element={<BroadcastForm />} />
+                        </Route>
 
-                    {}
-                    <Route
-                        path="/"
-                        element={
-                            <ProtectedRoute>
-                                <MainLayout />
-                            </ProtectedRoute>
-                        }
-                    >
-                        <Route path="feedback" element={<FeedbackTable />} />
-                        <Route path="stats" element={<StatsPage />} />
-                        <Route path="users" element={<UserList />} />
-                        <Route path="broadcast" element={<BroadcastForm />} />
-                    </Route>
-                </Routes>
-            </Router>
-        </div>
+                        <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+                </Router>
+            </div>
+        </AppErrorBoundary>
     );
 }
 

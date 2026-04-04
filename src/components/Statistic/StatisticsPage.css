@@ -1,40 +1,55 @@
 .container {
-    color: #ffffff;
-    text-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.6);
+    color: var(--text-main);
 }
 
+.stats-head {
+    margin-bottom: 1.5rem;
+}
 
-h2, h5 {
+h5 {
     font-weight: 700;
     color: #ffffff;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    text-shadow: 0 0 0.35rem rgba(0, 0, 0, 0.7);
+    margin: 0 0 1rem;
+}
+
+.stats-eyebrow {
+    margin-bottom: 0.65rem;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.stats-title {
+    margin: 0;
+    font-size: clamp(1.85rem, 3vw, 2.5rem);
+    line-height: 1.05;
+}
+
+.stats-subtitle {
+    max-width: 760px;
+    margin: 0.65rem 0 0;
+    color: var(--text-muted);
+    line-height: 1.55;
 }
 
 
 .chart-wrapper {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 1.25rem;
+    background: var(--panel-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: var(--radius-xl);
     padding: 2rem;
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--panel-border);
     color: #ffffff;
 }
-
-
-.chart-wrapper:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 1.5rem 2.5rem rgba(0, 0, 0, 0.4);
-}
-
 
 .pie-legend {
     list-style: none;
     padding: 0;
-    margin-top: 1rem;
+    margin: 0;
     color: #ffffff;
     font-weight: 600;
     font-size: 0.9rem;
@@ -56,75 +71,71 @@ h2, h5 {
 
 
 .chart-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem;
-    margin-top: 2rem;
 }
 
 
 .chart-item {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-radius: 1rem;
+    border-radius: var(--radius-lg);
     padding: 1.5rem;
-    flex: 1 1 28rem;
-    min-width: 22rem;
-    max-width: 100%;
-    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
-    transition: transform 0.3s ease;
+    min-width: 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 28px rgba(3, 10, 24, 0.18);
     color: #ffffff;
 }
 
+.chart-item-split {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(180px, 0.7fr);
+    gap: 1rem;
+    align-items: center;
+}
 
-.chart-item:hover {
-    transform: scale(1.02);
+.chart-item-wide {
+    grid-column: 1 / -1;
+}
+
+.chart-visual {
+    min-width: 0;
+}
+
+.chart-canvas {
+    width: 100%;
+    height: 280px;
+}
+
+.chart-canvas-square {
+    height: 280px;
+}
+
+.chart-canvas-wide {
+    height: 320px;
 }
 
 
-.back-button {
-    display: inline-block;
-    padding: 0.7rem 1.2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.08);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 0.75rem;
-    cursor: pointer;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-    text-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.4);
-    margin-bottom: 2rem;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-}
+@media (max-width: 960px) {
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
 
-.back-button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.3);
+    .chart-item-split {
+        grid-template-columns: 1fr;
+    }
 }
-
 
 @media (max-width: 600px) {
-    .chart-grid {
-        flex-direction: column;
-        gap: 1.25rem;
-    }
-
-    .chart-item {
-        min-width: 100%;
-        padding: 1rem;
-    }
 
     .chart-wrapper {
         padding: 1rem;
     }
 
-    .back-button {
-        font-size: 0.95rem;
-        padding: 0.5rem 0.9rem;
+    .chart-item {
+        padding: 1rem;
     }
 
     .pie-legend {
@@ -134,5 +145,11 @@ h2, h5 {
     .legend-color {
         width: 1rem;
         height: 1rem;
+    }
+
+    .chart-canvas,
+    .chart-canvas-square,
+    .chart-canvas-wide {
+        height: 240px;
     }
 }

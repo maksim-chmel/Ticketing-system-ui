@@ -1,0 +1,68 @@
+.app-notice {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 1rem 1.1rem;
+    border-radius: 16px;
+    border: 1px solid transparent;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.app-notice-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.app-notice-message {
+    line-height: 1.55;
+}
+
+.app-notice-action {
+    align-self: flex-start;
+    min-height: 40px;
+    padding: 0.6rem 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-main);
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.app-notice-action:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.app-notice-error {
+    color: #ffe2e2;
+    background: rgba(248, 113, 113, 0.14);
+    border-color: rgba(248, 113, 113, 0.22);
+}
+
+.app-notice-error .app-notice-title {
+    color: #fecaca;
+}
+
+.app-notice-success {
+    color: #def7ec;
+    background: rgba(52, 211, 153, 0.14);
+    border-color: rgba(52, 211, 153, 0.22);
+}
+
+.app-notice-success .app-notice-title {
+    color: #a7f3d0;
+}
+
+.app-notice-info {
+    color: var(--text-main);
+    background: rgba(125, 211, 252, 0.1);
+    border-color: rgba(125, 211, 252, 0.18);
+}
+
+.app-notice-info .app-notice-title {
+    color: #d7f5ff;
+}

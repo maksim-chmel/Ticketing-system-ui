@@ -25,6 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:once": "react-scripts test --watchAll=false",
+    "test:critical": "react-scripts test --watchAll=false --runTestsByPath src/auth/AuthFlow.test.tsx src/components/FeedbackTable/FeedbackTable.test.tsx",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
