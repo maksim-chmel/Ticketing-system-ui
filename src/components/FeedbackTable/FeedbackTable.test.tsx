@@ -50,7 +50,7 @@ const feedbacksFixture = [
         comment: "Internet is down in office",
         username: "alice",
         phone: "+49 123 456 789",
-        date: "2026-04-01T10:00:00Z",
+        createdDate: "2026-04-01T10:00:00Z",
         status: FeedbackStatus.Open,
     },
     {
@@ -59,7 +59,7 @@ const feedbacksFixture = [
         comment: "Printer issue on floor 3",
         username: "bob",
         phone: "+49 555 111 222",
-        date: "2026-04-02T11:30:00Z",
+        createdDate: "2026-04-02T11:30:00Z",
         status: FeedbackStatus.Waiting,
     },
 ];

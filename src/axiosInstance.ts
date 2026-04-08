@@ -26,7 +26,7 @@ export const clearStoredToken = () => {
 export const tryRefreshAccessToken = async (): Promise<string> => {
     if (!refreshPromise) {
         refreshPromise = axios
-            .post<{ accessToken: string }>(`${BASE_URL}/Auth/refresh`, {}, { withCredentials: true })
+            .post<{ accessToken: string }>(`${BASE_URL}/auth/refresh`, {}, { withCredentials: true })
             .then(response => {
                 const nextToken = response.data.accessToken;
 

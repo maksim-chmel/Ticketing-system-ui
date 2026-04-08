@@ -23,7 +23,7 @@ describe("BroadcastForm", () => {
     });
 
     it("sends broadcast message", async () => {
-        mockedAddBroadcastMessage.mockResolvedValue("Broadcast queued");
+        mockedAddBroadcastMessage.mockResolvedValue();
 
         render(<BroadcastForm />);
 
@@ -37,7 +37,7 @@ describe("BroadcastForm", () => {
             expect(mockedAddBroadcastMessage).toHaveBeenCalledWith({ message: "Important notice" });
         });
 
-        expect(await screen.findByText("Broadcast queued")).toBeInTheDocument();
+        expect(await screen.findByText("Message sent.")).toBeInTheDocument();
     });
 
     it("shows validation error for empty message", async () => {

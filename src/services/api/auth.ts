@@ -4,7 +4,7 @@ import { AuthResponse } from "./types";
 
 export const login = async (username: string, password: string): Promise<AuthResponse> => {
     const response = await axios.post<AuthResponse>(
-        `${BASE_URL}/Auth/login`,
+        `${BASE_URL}/auth/login`,
         { username, password },
         { withCredentials: true }
     );

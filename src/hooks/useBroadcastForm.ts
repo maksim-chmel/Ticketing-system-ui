@@ -23,8 +23,8 @@ export const useBroadcastForm = () => {
         setStatus(null);
 
         try {
-            const result = await addBroadcastMessage({ message: normalizedMessage });
-            setStatus({ message: result, type: "success" });
+            await addBroadcastMessage({ message: normalizedMessage });
+            setStatus({ message: "Message sent.", type: "success" });
             setMessage("");
             return true;
         } catch (err) {

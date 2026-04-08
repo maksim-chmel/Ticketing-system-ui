@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
     fetchFeedbacks,
-    Feedback,
+    FeedbackDto,
     FeedbackStatus,
     updateFeedbackStatus
 } from "../api";
@@ -24,7 +24,7 @@ const formatDate = (dateStr: string) => {
 };
 
 export const useFeedbackTable = () => {
-    const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
+    const [feedbacks, setFeedbacks] = useState<FeedbackDto[]>([]);
     const [statusFilter, setStatusFilter] = useState<FeedbackStatus | "all">("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedComment, setSelectedComment] = useState<string | null>(null);
@@ -79,7 +79,7 @@ export const useFeedbackTable = () => {
                     normalizePhoneValue(rawPhone),
                     fb.comment ?? "",
                     statusMap[fb.status],
-                    formatDate(fb.date),
+                    formatDate(fb.createdDate),
                 ]
                     .map(normalizeSearchValue)
                     .join(" ");

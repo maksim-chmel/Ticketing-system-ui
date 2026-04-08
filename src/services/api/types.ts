@@ -16,20 +16,20 @@ export enum FeedbackStatus {
     Rejected = 4,
 }
 
-export interface Feedback {
+export interface FeedbackDto {
     id: number;
     userId: number;
     comment: string;
     username: string | null;
     phone: string | null;
-    date: string;
+    createdDate: string;
     status: FeedbackStatus;
 }
 
 export interface UserDto {
     userId: number;
-    phone: string;
-    firstName: string;
+    phone?: string;
+    firstName?: string;
     lastName?: string | null;
     username?: string | null;
     comments?: string | null;

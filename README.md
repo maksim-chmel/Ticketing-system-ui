@@ -66,6 +66,7 @@ src/
 │   ├── users.ts
 │   ├── statistics.ts
 │   ├── broadcast.ts
+│   ├── operator.ts
 │   └── types.ts
 ├── hooks/                    # feature-level state and data loading hooks
 │   ├── useFeedbackTable.ts
@@ -161,6 +162,10 @@ You can place it in `.env`:
 REACT_APP_API_URL=http://localhost:5101/api
 ```
 
+Important:
+
+- `.env` is intentionally not committed; keep your local secrets there.
+
 Fallback value in code is:
 
 ```text
@@ -229,4 +234,4 @@ docker compose down
 
 Backend repository:
 
-[Ticketing System Backend](https://github.com/maksim-chmel/Ticketing-system-server-main)
+[Ticketing System Backend](https://github.com/maksim-chmel/Ticketing-system-server)

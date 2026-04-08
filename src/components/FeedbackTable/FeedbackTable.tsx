@@ -1,7 +1,7 @@
 import React from "react";
 import "./FeedbackTable.css";
 
-import { Feedback, FeedbackStatus } from "../../api";
+import { FeedbackDto, FeedbackStatus } from "../../api";
 import AppNotice from "../Common/AppNotice";
 import PageState from "../Common/PageState";
 import { useFeedbackTable } from "../../hooks/useFeedbackTable";
@@ -35,7 +35,7 @@ const FeedbackTable = () => {
         </button>
     );
 
-    const renderActions = (fb: Feedback) => {
+    const renderActions = (fb: FeedbackDto) => {
         switch (fb.status) {
             case FeedbackStatus.Open:
                 return (
@@ -156,7 +156,7 @@ const FeedbackTable = () => {
                                     >
                                         {(fb.comment ?? "").length > 60 ? `${(fb.comment ?? "").slice(0, 60)}...` : (fb.comment ?? "—")}
                                     </td>
-                                    <td>{formatDate(fb.date)}</td>
+                                    <td>{formatDate(fb.createdDate)}</td>
                                     <td>
                                         <span className={`status-badge status-${FeedbackStatus[fb.status].toLowerCase()}`}>
                                             {statusMap[fb.status]}

@@ -74,15 +74,11 @@ export const useUserList = () => {
         const commentText = editingComments[editingUserId] ?? "";
 
         try {
-            await updateUserComment({
+            const updatedUser = await updateUserComment({
                 userId: editingUserId,
                 comment: commentText,
             });
-            setUsers(prev =>
-                prev.map(u =>
-                    u.userId === editingUserId ? { ...u, comments: commentText } : u
-                )
-            );
+            setUsers(prev => prev.map(u => (u.userId === editingUserId ? updatedUser : u)));
             cancelEditing();
             showNotification("Comment saved", "success");
         } catch (err) {
