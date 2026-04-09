@@ -28,7 +28,50 @@ export const operatorUpsertUser = async (userId: number, payload: UserDto): Prom
 
 export const operatorGetUserFeedbacks = async (userId: number): Promise<FeedbackDto[]> => {
     const response = await axiosInstance.get<FeedbackDto[]>(`/operator/users/${userId}/feedbacks`);
-    return response.data;
+    return (response.data as any[]).map(raw => ({
+        ...raw,
+        createdDate:
+            raw?.date ??
+            raw?.Date ??
+            raw?.createdDate ??
+            raw?.CreatedDate ??
+            raw?.created_date ??
+            raw?.createdAt ??
+            raw?.CreatedAt ??
+            raw?.created_at ??
+            raw?.createdDateUtc ??
+            raw?.CreatedDateUtc ??
+            raw?.created_date_utc ??
+            raw?.createdOn ??
+            raw?.CreatedOn ??
+            raw?.created ??
+            raw?.Created ??
+            "",
+        status: (() => {
+            const value = raw?.status;
+            if (typeof value === "number") return value;
+            if (typeof value === "string") {
+                const normalized = value.replace(/\s+/g, "").toLowerCase();
+                switch (normalized) {
+                    case "open":
+                        return 0;
+                    case "inprogress":
+                        return 1;
+                    case "waiting":
+                    case "waitingforreply":
+                        return 2;
+                    case "done":
+                    case "closed":
+                    case "close":
+                        return 3;
+                    case "rejected":
+                    case "reject":
+                        return 4;
+                }
+            }
+            return 0;
+        })(),
+    })) as FeedbackDto[];
 };
 
 export const operatorPullBroadcastMessages = async (): Promise<Array<{ id: number; message: string }>> => {

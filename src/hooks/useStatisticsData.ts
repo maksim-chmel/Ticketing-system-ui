@@ -6,6 +6,7 @@ import {
     StatusDistributionItem
 } from "../api";
 import { getErrorMessage } from "../utils/getErrorMessage";
+import { formatApiUtcToLocalDate } from "../utils/dates";
 
 interface RequestsOverTimePoint {
     date: string;
@@ -31,7 +32,7 @@ export const useStatisticsData = () => {
             setDataStatus(statusData);
             setDataOverTime(
                 overTimeData.map((item: RequestsOverTimeItem) => ({
-                    date: item.date,
+                    date: formatApiUtcToLocalDate(item.date),
                     count: item.value,
                 }))
             );

@@ -6,6 +6,7 @@ import {
     updateFeedbackStatus
 } from "../api";
 import { getErrorMessage } from "../utils/getErrorMessage";
+import { formatApiUtcToLocalDateTime } from "../utils/dates";
 
 const normalizeSearchValue = (value: string) => value.trim().toLowerCase();
 const normalizePhoneValue = (value: string) => value.replace(/\D/g, "");
@@ -18,10 +19,7 @@ const statusMap: Record<FeedbackStatus, string> = {
     [FeedbackStatus.Rejected]: "Rejected"
 };
 
-const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return isNaN(date.getTime()) ? "Invalid date" : date.toLocaleDateString("en-GB");
-};
+const formatDate = (dateStr: string) => formatApiUtcToLocalDateTime(dateStr);
 
 export const useFeedbackTable = () => {
     const [feedbacks, setFeedbacks] = useState<FeedbackDto[]>([]);
