@@ -1,4 +1,4 @@
-# Ticketing System UI
+# Ticketing System UI [![Frontend CI/CD](https://github.com/maksim-chmel/Ticketing-system-ui/actions/workflows/frontend-deploy.yml/badge.svg)](https://github.com/maksim-chmel/Ticketing-system-ui/actions/workflows/frontend-deploy.yml)
 
 Admin panel for coordinators in the Ticketing System platform. The application is built as a React SPA and works with the existing ASP.NET Core backend without changing its API contracts.
 
