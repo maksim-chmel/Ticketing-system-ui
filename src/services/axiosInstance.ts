@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
-import BASE_URL from "./config";
+import BASE_URL from "../config";
 
 type RetryableAxiosRequestConfig = InternalAxiosRequestConfig & {
     _retry?: boolean;

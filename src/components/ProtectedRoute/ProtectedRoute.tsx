@@ -1,7 +1,7 @@
 import React, {JSX} from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../auth/AuthContext";
-import PageState from "./Common/PageState";
+import { useAuth } from "../../auth/AuthContext";
+import PageState from "../Common/PageState";
 
 interface ProtectedRouteProps {
     children: JSX.Element;

@@ -11,10 +11,10 @@ const UserList: React.FC = () => {
         editingUserId,
         error,
         handleCommentChange,
+        isSaving,
         loadUsers,
         loading,
         notification,
-        notificationType,
         saveComment,
         startEditing,
         users,
@@ -38,23 +38,26 @@ const UserList: React.FC = () => {
 
     return (
         <div className="user-list">
-            <div className="user-list-head">
+            <div className="page-head">
                 <div>
-                    <div className="user-list-eyebrow">User directory</div>
-                    <h1 className="user-list-title">Users and internal notes</h1>
-                    <p className="user-list-subtitle">Keep operator comments structured and easy to update without losing context.</p>
+                    <div className="page-eyebrow">User directory</div>
+                    <h1 className="page-title">Users and internal notes</h1>
+                    <p className="page-subtitle">Keep operator comments structured and easy to update without losing context.</p>
                 </div>
             </div>
+
             {notification && (
-                <AppNotice
-                    title={notificationType === "error" ? "Action failed" : "Saved"}
-                    message={notification}
-                    variant={notificationType ?? "info"}
-                    className="notification"
-                />
+                <div className="notification-anchor">
+                    <AppNotice
+                        title={notification.type === "error" ? "Action failed" : "Saved"}
+                        message={notification.message}
+                        variant={notification.type}
+                    />
+                </div>
             )}
-            <div className="user-table-shell">
-                <table>
+
+            <div className="data-shell">
+                <table className="data-table user-table">
                     <thead>
                     <tr>
                         <th>First Name</th>
@@ -87,11 +90,33 @@ const UserList: React.FC = () => {
                             <td>
                                 {editingUserId === user.userId ? (
                                     <>
-                                        <button className="btn save-btn" onClick={saveComment} title="Save">💾</button>
-                                        <button className="btn cancel-btn" onClick={cancelEditing} title="Cancel" style={{ marginLeft: 8 }}>❌</button>
+                                        <button
+                                            className="action-btn action-btn-save"
+                                            onClick={saveComment}
+                                            disabled={isSaving}
+                                            title="Save"
+                                            aria-label="Save"
+                                        >
+                                            <span className="material-icons">check</span>
+                                        </button>
+                                        <button
+                                            className="action-btn action-btn-danger"
+                                            onClick={cancelEditing}
+                                            title="Cancel"
+                                            aria-label="Cancel"
+                                        >
+                                            <span className="material-icons">close</span>
+                                        </button>
                                     </>
                                 ) : (
-                                    <button className="btn edit-btn" onClick={() => startEditing(user)} title="Edit">✏️</button>
+                                    <button
+                                        className="action-btn action-btn-edit"
+                                        onClick={() => startEditing(user)}
+                                        title="Edit comment"
+                                        aria-label="Edit comment"
+                                    >
+                                        <span className="material-icons">edit</span>
+                                    </button>
                                 )}
                             </td>
                         </tr>

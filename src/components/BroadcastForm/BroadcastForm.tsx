@@ -1,5 +1,5 @@
 import React from 'react';
-import './BroadcastMessageForm.css';
+import './BroadcastForm.css';
 import AppNotice from "../Common/AppNotice";
 import { useBroadcastForm } from "../../hooks/useBroadcastForm";
 
@@ -13,9 +13,9 @@ const BroadcastMessageForm: React.FC = () => {
 
     return (
         <div className="broadcast-container">
-            <div className="broadcast-eyebrow">Messaging</div>
-            <h2 className="broadcast-title">Broadcast to users</h2>
-            <p className="broadcast-subtitle">Compose a concise announcement and send it to all connected users in one action.</p>
+            <div className="page-eyebrow">Messaging</div>
+            <h2 className="page-title">Broadcast to users</h2>
+            <p className="page-subtitle">Compose a concise announcement and send it to all connected users in one action.</p>
             <form onSubmit={handleSubmit} className="broadcast-form">
                 <textarea
                     rows={5}
@@ -34,7 +34,6 @@ const BroadcastMessageForm: React.FC = () => {
                     title={status.type === "error" ? "Broadcast failed" : "Broadcast sent"}
                     message={status.message}
                     variant={status.type}
-                    className="broadcast-status"
                 />
             )}
         </div>

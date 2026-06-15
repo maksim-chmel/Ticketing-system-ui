@@ -1,10 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
+    claimFeedback,
+    fetchFeedbackHistory,
     fetchFeedbacks,
     FeedbackDto,
+    FeedbackHistoryItem,
     FeedbackStatus,
     updateFeedbackStatus
 } from "../api";
+import { useAuth } from "../auth/AuthContext";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import { formatApiUtcToLocalDateTime } from "../utils/dates";
 
@@ -22,28 +26,40 @@ const statusMap: Record<FeedbackStatus, string> = {
 const formatDate = (dateStr: string) => formatApiUtcToLocalDateTime(dateStr);
 
 export const useFeedbackTable = () => {
+    const { adminName } = useAuth();
+
     const [feedbacks, setFeedbacks] = useState<FeedbackDto[]>([]);
     const [statusFilter, setStatusFilter] = useState<FeedbackStatus | "all">("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedComment, setSelectedComment] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const [pendingClaim, setPendingClaim] = useState<{ id: number; assignedTo: string } | null>(null);
+    const [historyFeedbackId, setHistoryFeedbackId] = useState<number | null>(null);
+    const [history, setHistory] = useState<FeedbackHistoryItem[]>([]);
+    const [historyLoading, setHistoryLoading] = useState(false);
+    const isMountedRef = useRef(true);
 
     const loadFeedbacks = async () => {
         try {
             setLoading(true);
             setError(null);
-            const data = await fetchFeedbacks();
-            setFeedbacks(data);
+            const { items } = await fetchFeedbacks();
+            if (!isMountedRef.current) return;
+            setFeedbacks(items);
         } catch (err) {
+            if (!isMountedRef.current) return;
             setError(getErrorMessage(err, "Failed to load tickets"));
         } finally {
-            setLoading(false);
+            if (isMountedRef.current) {
+                setLoading(false);
+            }
         }
     };
 
     useEffect(() => {
         void loadFeedbacks();
+        return () => { isMountedRef.current = false; };
     }, []);
 
     const changeStatus = async (id: number, newStatus: FeedbackStatus) => {
@@ -56,6 +72,54 @@ export const useFeedbackTable = () => {
         } catch (err) {
             setError(getErrorMessage(err, "Failed to update status"));
         }
+    };
+
+    const executeClaim = async (id: number) => {
+        try {
+            setError(null);
+            await claimFeedback(id);
+            const { items } = await fetchFeedbacks();
+            if (isMountedRef.current) setFeedbacks(items);
+        } catch (err) {
+            setError(getErrorMessage(err, "Failed to claim ticket"));
+        }
+    };
+
+    const claimTicket = (fb: FeedbackDto) => {
+        if (fb.assignedAdminName !== null && fb.assignedAdminName !== adminName) {
+            setPendingClaim({ id: fb.id, assignedTo: fb.assignedAdminName });
+        } else {
+            void executeClaim(fb.id);
+        }
+    };
+
+    const confirmClaim = () => {
+        if (pendingClaim !== null) {
+            const id = pendingClaim.id;
+            setPendingClaim(null);
+            void executeClaim(id);
+        }
+    };
+
+    const cancelClaim = () => setPendingClaim(null);
+
+    const openHistory = async (id: number) => {
+        setHistoryFeedbackId(id);
+        setHistoryLoading(true);
+        setHistory([]);
+        try {
+            const items = await fetchFeedbackHistory(id);
+            if (isMountedRef.current) setHistory(items);
+        } catch (err) {
+            if (isMountedRef.current) setError(getErrorMessage(err, "Failed to load history"));
+        } finally {
+            if (isMountedRef.current) setHistoryLoading(false);
+        }
+    };
+
+    const closeHistory = () => {
+        setHistoryFeedbackId(null);
+        setHistory([]);
     };
 
     const filteredFeedbacks = useMemo(() => (
@@ -78,6 +142,7 @@ export const useFeedbackTable = () => {
                     fb.comment ?? "",
                     statusMap[fb.status],
                     formatDate(fb.createdDate),
+                    fb.assignedAdminName ?? "",
                 ]
                     .map(normalizeSearchValue)
                     .join(" ");
@@ -87,11 +152,20 @@ export const useFeedbackTable = () => {
     ), [feedbacks, searchQuery, statusFilter]);
 
     return {
+        adminName,
+        cancelClaim,
+        closeHistory,
+        claimTicket,
+        confirmClaim,
         error,
         filteredFeedbacks,
-        formatDate,
+        history,
+        historyFeedbackId,
+        historyLoading,
         loadFeedbacks,
         loading,
+        openHistory,
+        pendingClaim,
         searchQuery,
         selectedComment,
         setSearchQuery,

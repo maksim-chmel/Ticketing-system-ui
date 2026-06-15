@@ -1,90 +1,50 @@
-import axiosInstance from "../../axiosInstance";
-import { FeedbackDto, FeedbackStatus } from "./types";
+import axiosInstance from "../axiosInstance";
+import { FeedbackDto, FeedbackHistoryItem, FeedbackStatus, PaginatedResponse } from "./types";
 
-const pickCreatedDateString = (raw: any): string => {
-    const direct =
-        raw?.date ??
-        raw?.Date ??
-        raw?.createdDate ??
-        raw?.CreatedDate ??
-        raw?.created_date ??
-        raw?.createdAt ??
-        raw?.CreatedAt ??
-        raw?.created_at ??
-        raw?.createdDateUtc ??
-        raw?.CreatedDateUtc ??
-        raw?.created_date_utc ??
-        raw?.createdOn ??
-        raw?.CreatedOn ??
-        raw?.created ??
-        raw?.Created;
-
-    if (typeof direct === "string") return direct;
-
-    if (!raw || typeof raw !== "object") return "";
-
-    // Case-insensitive heuristic: find first string field that looks like created date/time.
-    const entries = Object.entries(raw) as Array<[string, unknown]>;
-    const candidateKey = (k: string) => {
-        const key = k.toLowerCase();
-        return (
-            (key.includes("created") && key.includes("date")) ||
-            (key.includes("created") && key.includes("time")) ||
-            (key.includes("created") && key.endsWith("at")) ||
-            key === "createdat" ||
-            key === "createddate"
-        );
-    };
-
-    for (const [key, val] of entries) {
-        if (candidateKey(key) && typeof val === "string") return val;
-    }
-
-    return "";
-};
+const VALID_STATUSES = new Set<string>(Object.values(FeedbackStatus));
 
 const normalizeStatus = (raw: any): FeedbackStatus => {
     const value = raw?.status;
-    if (typeof value === "number") return value as FeedbackStatus;
-
     if (typeof value === "string") {
-        const normalized = value.replace(/\s+/g, "").toLowerCase();
-        switch (normalized) {
-            case "open":
-                return FeedbackStatus.Open;
-            case "inprogress":
-                return FeedbackStatus.InProgress;
+        if (VALID_STATUSES.has(value)) return value as FeedbackStatus;
+        switch (value.replace(/\s+/g, "").toLowerCase()) {
+            case "open":        return FeedbackStatus.Open;
+            case "inprogress":  return FeedbackStatus.InProgress;
             case "waiting":
-            case "waitingforreply":
-                return FeedbackStatus.Waiting;
+            case "waitingforreply": return FeedbackStatus.Waiting;
             case "done":
-            case "closed":
-            case "close":
-                return FeedbackStatus.Done;
-            case "rejected":
-            case "reject":
-                return FeedbackStatus.Rejected;
+            case "closed":      return FeedbackStatus.Done;
+            case "rejected":    return FeedbackStatus.Rejected;
         }
     }
-
     return FeedbackStatus.Open;
 };
 
-const normalizeFeedback = (raw: any): FeedbackDto => {
-    const createdDate = pickCreatedDateString(raw);
+const normalizeFeedback = (raw: any): FeedbackDto => ({
+    ...raw,
+    createdDate: raw?.createdDate ?? "",
+    status: normalizeStatus(raw),
+    assignedAdminId: raw?.assignedAdminId ?? null,
+    assignedAdminName: raw?.assignedAdminName ?? null,
+} as FeedbackDto);
 
+export const fetchFeedbacks = async (): Promise<PaginatedResponse<FeedbackDto>> => {
+    const response = await axiosInstance.get<PaginatedResponse<FeedbackDto>>("/feedbacks");
     return {
-        ...raw,
-        createdDate,
-        status: normalizeStatus(raw),
-    } as FeedbackDto;
-};
-
-export const fetchFeedbacks = async (): Promise<FeedbackDto[]> => {
-    const response = await axiosInstance.get<FeedbackDto[]>("/feedbacks");
-    return (response.data as any[]).map(normalizeFeedback);
+        items: (response.data.items ?? []).map(normalizeFeedback),
+        totalCount: response.data.totalCount,
+    };
 };
 
 export const updateFeedbackStatus = async (id: number, status: FeedbackStatus): Promise<void> => {
     await axiosInstance.patch(`/feedbacks/${id}`, { status });
+};
+
+export const claimFeedback = async (id: number): Promise<void> => {
+    await axiosInstance.post(`/feedbacks/${id}/claim`);
+};
+
+export const fetchFeedbackHistory = async (id: number): Promise<FeedbackHistoryItem[]> => {
+    const response = await axiosInstance.get<FeedbackHistoryItem[]>(`/feedbacks/${id}/history`);
+    return response.data;
 };

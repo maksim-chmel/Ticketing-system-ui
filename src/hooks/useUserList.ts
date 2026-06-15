@@ -8,20 +8,25 @@ export const useUserList = () => {
     const [error, setError] = useState<string | null>(null);
     const [editingUserId, setEditingUserId] = useState<number | null>(null);
     const [editingComments, setEditingComments] = useState<Record<number, string>>({});
-    const [notification, setNotification] = useState<string | null>(null);
-    const [notificationType, setNotificationType] = useState<"success" | "error" | null>(null);
+    const [isSaving, setIsSaving] = useState(false);
+    const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
+    const isMountedRef = useRef(true);
     const notificationTimeoutRef = useRef<number | null>(null);
 
     const loadUsers = async () => {
         try {
             setLoading(true);
             setError(null);
-            const data = await fetchUsers();
-            setUsers(data);
+            const { items } = await fetchUsers();
+            if (!isMountedRef.current) return;
+            setUsers(items);
         } catch (err) {
+            if (!isMountedRef.current) return;
             setError(getErrorMessage(err, "Failed to load users"));
         } finally {
-            setLoading(false);
+            if (isMountedRef.current) {
+                setLoading(false);
+            }
         }
     };
 
@@ -29,6 +34,7 @@ export const useUserList = () => {
         void loadUsers();
 
         return () => {
+            isMountedRef.current = false;
             if (notificationTimeoutRef.current !== null) {
                 window.clearTimeout(notificationTimeoutRef.current);
             }
@@ -40,11 +46,9 @@ export const useUserList = () => {
             window.clearTimeout(notificationTimeoutRef.current);
         }
 
-        setNotification(message);
-        setNotificationType(type);
+        setNotification({ message, type });
         notificationTimeoutRef.current = window.setTimeout(() => {
             setNotification(null);
-            setNotificationType(null);
             notificationTimeoutRef.current = null;
         }, 3500);
     };
@@ -69,8 +73,9 @@ export const useUserList = () => {
     };
 
     const saveComment = async () => {
-        if (editingUserId === null) return;
+        if (editingUserId === null || isSaving) return;
 
+        setIsSaving(true);
         const commentText = editingComments[editingUserId] ?? "";
 
         try {
@@ -78,11 +83,17 @@ export const useUserList = () => {
                 userId: editingUserId,
                 comment: commentText,
             });
-            setUsers(prev => prev.map(u => (u.userId === editingUserId ? updatedUser : u)));
+            if (!isMountedRef.current) return;
+            setUsers(prev => prev.map(u => (u.userId === editingUserId ? { ...u, ...updatedUser } : u)));
             cancelEditing();
             showNotification("Comment saved", "success");
         } catch (err) {
+            if (!isMountedRef.current) return;
             showNotification(getErrorMessage(err, "Failed to save comment"), "error");
+        } finally {
+            if (isMountedRef.current) {
+                setIsSaving(false);
+            }
         }
     };
 
@@ -92,10 +103,10 @@ export const useUserList = () => {
         editingUserId,
         error,
         handleCommentChange,
+        isSaving,
         loadUsers,
         loading,
         notification,
-        notificationType,
         saveComment,
         startEditing,
         users,

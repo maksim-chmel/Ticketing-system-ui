@@ -1,8 +1,8 @@
-import axiosInstance from "../../axiosInstance";
-import { UserDto } from "./types";
+import axiosInstance from "../axiosInstance";
+import { PaginatedResponse, UserDto } from "./types";
 
-export const fetchUsers = async (): Promise<UserDto[]> => {
-    const response = await axiosInstance.get<UserDto[]>("/users");
+export const fetchUsers = async (): Promise<PaginatedResponse<UserDto>> => {
+    const response = await axiosInstance.get<PaginatedResponse<UserDto>>("/users");
     return response.data;
 };
 

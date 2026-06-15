@@ -1,4 +1,4 @@
-import axiosInstance from "../../axiosInstance";
+import axiosInstance from "../axiosInstance";
 import { RequestsOverTimeItem, StatusDistributionItem } from "./types";
 
 export const fetchStatusDistribution = async (): Promise<StatusDistributionItem[]> => {

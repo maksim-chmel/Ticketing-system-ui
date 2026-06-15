@@ -5,11 +5,13 @@ import {
     getStoredToken,
     tryRefreshAccessToken,
     AUTH_UNAUTHORIZED_EVENT
-} from "../axiosInstance";
+} from "../services/axiosInstance";
+import { decodeJwtName } from "../utils/jwt";
 
 interface AuthContextValue {
     isAuthenticated: boolean;
     isLoading: boolean;
+    adminName: string | null;
     signIn: (username: string, password: string) => Promise<void>;
     signOut: () => void;
 }
@@ -19,6 +21,10 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(() => Boolean(getStoredToken()));
     const [isLoading, setIsLoading] = useState(true);
+    const [adminName, setAdminName] = useState<string | null>(() => {
+        const token = getStoredToken();
+        return token ? decodeJwtName(token) : null;
+    });
 
     useEffect(() => {
         let isMounted = true;
@@ -29,10 +35,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
                 if (isMounted) {
                     setIsAuthenticated(true);
+                    const token = getStoredToken();
+                    setAdminName(token ? decodeJwtName(token) : null);
                 }
             } catch {
                 if (isMounted) {
                     setIsAuthenticated(false);
+                    setAdminName(null);
                 }
             } finally {
                 if (isMounted) {
@@ -63,6 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const value = useMemo<AuthContextValue>(() => ({
         isAuthenticated,
         isLoading,
+        adminName,
         signIn: async (username: string, password: string) => {
             const data = await login(username, password);
 
@@ -71,13 +81,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             }
 
             localStorage.setItem("token", data.accessToken);
+            setAdminName(decodeJwtName(data.accessToken));
             setIsAuthenticated(true);
         },
         signOut: () => {
             clearStoredToken();
+            setAdminName(null);
             setIsAuthenticated(false);
         }
-    }), [isAuthenticated, isLoading]);
+    }), [isAuthenticated, isLoading, adminName]);
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

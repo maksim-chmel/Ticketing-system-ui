@@ -9,11 +9,11 @@ export interface RequestsOverTimeItem {
 }
 
 export enum FeedbackStatus {
-    Open = 0,
-    InProgress = 1,
-    Waiting = 2,
-    Done = 3,
-    Rejected = 4,
+    Open = "Open",
+    InProgress = "InProgress",
+    Waiting = "Waiting",
+    Done = "Done",
+    Rejected = "Rejected",
 }
 
 export interface FeedbackDto {
@@ -24,6 +24,16 @@ export interface FeedbackDto {
     phone: string | null;
     createdDate: string;
     status: FeedbackStatus;
+    assignedAdminId: string | null;
+    assignedAdminName: string | null;
+}
+
+export interface FeedbackHistoryItem {
+    adminName: string;
+    action: string;
+    oldValue: string | null;
+    newValue: string | null;
+    createdAt: string;
 }
 
 export interface UserDto {
@@ -37,4 +47,9 @@ export interface UserDto {
 
 export interface AuthResponse {
     accessToken: string;
+}
+
+export interface PaginatedResponse<T> {
+    items: T[];
+    totalCount: number;
 }

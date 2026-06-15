@@ -1,4 +1,4 @@
-import axiosInstance from "../../axiosInstance";
+import axiosInstance from "../axiosInstance";
 import { FeedbackDto, UserDto } from "./types";
 
 export interface UsersMessageDto {

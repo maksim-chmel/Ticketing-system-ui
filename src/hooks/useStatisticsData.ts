@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     fetchRequestsOverTime,
     fetchStatusDistribution,
@@ -18,6 +18,7 @@ export const useStatisticsData = () => {
     const [dataOverTime, setDataOverTime] = useState<RequestsOverTimePoint[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const isMountedRef = useRef(true);
 
     const loadStatistics = async () => {
         try {
@@ -29,6 +30,7 @@ export const useStatisticsData = () => {
                 fetchRequestsOverTime(),
             ]);
 
+            if (!isMountedRef.current) return;
             setDataStatus(statusData);
             setDataOverTime(
                 overTimeData.map((item: RequestsOverTimeItem) => ({
@@ -37,14 +39,18 @@ export const useStatisticsData = () => {
                 }))
             );
         } catch (err) {
+            if (!isMountedRef.current) return;
             setError(getErrorMessage(err, "Failed to load statistics"));
         } finally {
-            setLoading(false);
+            if (isMountedRef.current) {
+                setLoading(false);
+            }
         }
     };
 
     useEffect(() => {
         void loadStatistics();
+        return () => { isMountedRef.current = false; };
     }, []);
 
     return {

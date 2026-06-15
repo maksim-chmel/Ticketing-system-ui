@@ -5,9 +5,9 @@ import "./App.css";
 import AppErrorBoundary from "./components/Common/AppErrorBoundary";
 import LoginPage from "./components/LoginPage/LoginPage";
 import FeedbackTable from "./components/FeedbackTable/FeedbackTable";
-import StatsPage from "./components/Statistic/StatisticsPage";
+import StatsPage from "./components/Statistics/StatisticsPage";
 import UserList from "./components/UserList/UserList";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import MainLayout from "./components/MainLayout/MainLayout";
 import BroadcastForm from "./components/BroadcastForm/BroadcastForm";
 

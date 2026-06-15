@@ -14,6 +14,16 @@ import "./StatisticsPage.css";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AA336A"];
 
+const tooltipStyle = {
+    backgroundColor: "rgba(11, 23, 48, 0.92)",
+    color: "#f4f7fb",
+    border: "1px solid rgba(255, 255, 255, 0.12)",
+    borderRadius: "12px",
+    boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+    fontWeight: 500,
+    fontSize: "0.9rem",
+};
+
 const PieLegend: React.FC<{ data: StatusDistributionItem[] }> = ({ data }) => {
     const total = data.reduce((sum, item) => sum + item.value, 0);
     return (
@@ -25,7 +35,7 @@ const PieLegend: React.FC<{ data: StatusDistributionItem[] }> = ({ data }) => {
                         <span
                             className="legend-color"
                             style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                        ></span>
+                        />
                         {entry.name}: {percent}%
                     </li>
                 );
@@ -38,36 +48,31 @@ const StatisticsPage: React.FC = () => {
     const { dataOverTime, dataStatus, error, loadStatistics, loading } = useStatisticsData();
 
     if (loading) {
-        return (
-            <div className="container my-4">
-                <PageState title="Loading" message="Statistics are loading. This may take a moment." />
-            </div>
-        );
+        return <PageState title="Loading" message="Statistics are loading. This may take a moment." />;
     }
 
     if (error) {
         return (
-            <div className="container my-4">
-                <PageState
-                    title="Statistics unavailable"
-                    message={error}
-                    variant="error"
-                    actionLabel="Try again"
-                    onAction={() => void loadStatistics()}
-                />
-            </div>
+            <PageState
+                title="Statistics unavailable"
+                message={error}
+                variant="error"
+                actionLabel="Try again"
+                onAction={() => void loadStatistics()}
+            />
         );
     }
 
     return (
-        <div className="container my-4">
-            <div className="stats-head">
+        <div className="stats-page">
+            <div className="page-head">
                 <div>
-                    <div className="stats-eyebrow">Analytics</div>
-                    <h1 className="stats-title">Ticket performance overview</h1>
-                    <p className="stats-subtitle">Track status distribution and daily dynamics without losing readability on smaller screens.</p>
+                    <div className="page-eyebrow">Analytics</div>
+                    <h1 className="page-title">Ticket performance overview</h1>
+                    <p className="page-subtitle">Track status distribution and daily dynamics without losing readability on smaller screens.</p>
                 </div>
             </div>
+
             <div className="chart-wrapper">
                 <div className="chart-grid">
 
@@ -94,19 +99,9 @@ const StatisticsPage: React.FC = () => {
                                             ))}
                                         </Pie>
                                         <Tooltip
-                                            contentStyle={{
-                                                backgroundColor: "#222",
-                                                color: "#fff",
-                                                border: "none",
-                                                borderRadius: "8px",
-                                                boxShadow: "0 2px 10px rgba(0,0,0,0.7)",
-                                                fontWeight: 500,
-                                                fontSize: "0.9rem"
-                                            }}
-                                            itemStyle={{
-                                                color: "#fff"
-                                            }}
-                                            cursor={{ fill: "rgba(255, 255, 255, 0.2)" }}
+                                            contentStyle={tooltipStyle}
+                                            itemStyle={{ color: "#f4f7fb" }}
+                                            cursor={{ fill: "rgba(255, 255, 255, 0.08)" }}
                                         />
                                     </PieChart>
                                 </ResponsiveContainer>
@@ -122,22 +117,19 @@ const StatisticsPage: React.FC = () => {
                                 <BarChart data={dataOverTime}>
                                     <XAxis
                                         dataKey="date"
-                                        stroke="#ffffff"
-                                        tick={{ fill: "#ffffff", fontSize: 12 }}
+                                        stroke="rgba(231,238,248,0.4)"
+                                        tick={{ fill: "rgba(231,238,248,0.74)", fontSize: 12 }}
                                     />
                                     <YAxis
-                                        stroke="#ffffff"
-                                        tick={{ fill: "#ffffff", fontSize: 12 }}
+                                        stroke="rgba(231,238,248,0.4)"
+                                        tick={{ fill: "rgba(231,238,248,0.74)", fontSize: 12 }}
                                     />
                                     <Tooltip
-                                        contentStyle={{
-                                            backgroundColor: "#222",
-                                            color: "#fff",
-                                            border: "none"
-                                        }}
+                                        contentStyle={tooltipStyle}
+                                        itemStyle={{ color: "#f4f7fb" }}
                                     />
-                                    <Legend wrapperStyle={{ color: "#ffffff" }} />
-                                    <Bar dataKey="count" radius={[8, 8, 0, 0]} fill="#82ca9d" />
+                                    <Legend wrapperStyle={{ color: "rgba(231,238,248,0.74)" }} />
+                                    <Bar dataKey="count" radius={[8, 8, 0, 0]} fill="#7dd3fc" />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
@@ -148,36 +140,26 @@ const StatisticsPage: React.FC = () => {
                         <div className="chart-canvas chart-canvas-wide">
                             <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={dataOverTime}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
+                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
                                     <XAxis
                                         dataKey="date"
-                                        stroke="#ffffff"
-                                        tick={{ fill: "#ffffff", fontSize: 12 }}
+                                        stroke="rgba(231,238,248,0.4)"
+                                        tick={{ fill: "rgba(231,238,248,0.74)", fontSize: 12 }}
                                     />
                                     <YAxis
-                                        stroke="#ffffff"
-                                        tick={{ fill: "#ffffff", fontSize: 12 }}
+                                        stroke="rgba(231,238,248,0.4)"
+                                        tick={{ fill: "rgba(231,238,248,0.74)", fontSize: 12 }}
                                     />
                                     <Tooltip
-                                        contentStyle={{
-                                            backgroundColor: "#222",
-                                            color: "#fff",
-                                            border: "none",
-                                            borderRadius: "8px",
-                                            boxShadow: "0 2px 10px rgba(0,0,0,0.7)",
-                                            fontWeight: 500,
-                                            fontSize: "0.9rem"
-                                        }}
-                                        itemStyle={{
-                                            color: "#fff"
-                                        }}
-                                        cursor={{ fill: "rgba(255, 255, 255, 0.2)" }}
+                                        contentStyle={tooltipStyle}
+                                        itemStyle={{ color: "#f4f7fb" }}
+                                        cursor={{ fill: "rgba(255, 255, 255, 0.06)" }}
                                     />
-                                    <Legend wrapperStyle={{ color: "#ffffff" }} />
+                                    <Legend wrapperStyle={{ color: "rgba(231,238,248,0.74)" }} />
                                     <Line
                                         type="monotone"
                                         dataKey="count"
-                                        stroke="#8884d8"
+                                        stroke="var(--accent)"
                                         strokeWidth={2.5}
                                         activeDot={{ r: 6 }}
                                     />

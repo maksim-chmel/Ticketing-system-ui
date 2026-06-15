@@ -2,9 +2,9 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { AuthProvider, useAuth } from "./AuthContext";
 import LoginPage from "../components/LoginPage/LoginPage";
-import ProtectedRoute from "../components/ProtectedRoute";
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import { login } from "../api";
-import { tryRefreshAccessToken } from "../axiosInstance";
+import { tryRefreshAccessToken } from "../services/axiosInstance";
 
 const mockNavigate = jest.fn();
 
@@ -26,7 +26,7 @@ jest.mock("../api", () => ({
     login: jest.fn(),
 }));
 
-jest.mock("../axiosInstance", () => ({
+jest.mock("../services/axiosInstance", () => ({
     AUTH_UNAUTHORIZED_EVENT: "auth:unauthorized",
     clearStoredToken: jest.fn(() => global.localStorage.removeItem("token")),
     getStoredToken: jest.fn(() => global.localStorage.getItem("token")),

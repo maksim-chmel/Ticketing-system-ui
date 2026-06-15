@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
-import { fetchFeedbacks, updateFeedbackStatus } from "../../api";
+import { fetchFeedbacks, FeedbackStatus, updateFeedbackStatus } from "../../api";
 import FeedbackTable from "./FeedbackTable";
 
 jest.mock("axios", () => ({
@@ -14,34 +14,23 @@ jest.mock("axios", () => ({
 jest.mock("../../api", () => ({
     fetchFeedbacks: jest.fn(),
     updateFeedbackStatus: jest.fn(),
+    claimFeedback: jest.fn(),
+    fetchFeedbackHistory: jest.fn(),
     FeedbackStatus: {
-        0: "Open",
-        1: "InProgress",
-        2: "Waiting",
-        3: "Done",
-        4: "Rejected",
-        Open: 0,
-        InProgress: 1,
-        Waiting: 2,
-        Done: 3,
-        Rejected: 4,
+        Open: "Open",
+        InProgress: "InProgress",
+        Waiting: "Waiting",
+        Done: "Done",
+        Rejected: "Rejected",
     },
+}));
+
+jest.mock("../../auth/AuthContext", () => ({
+    useAuth: () => ({ adminName: "testadmin" }),
 }));
 
 const mockedFetchFeedbacks = fetchFeedbacks as jest.MockedFunction<typeof fetchFeedbacks>;
 const mockedUpdateFeedbackStatus = updateFeedbackStatus as jest.MockedFunction<typeof updateFeedbackStatus>;
-const FeedbackStatus = {
-    0: "Open",
-    1: "InProgress",
-    2: "Waiting",
-    3: "Done",
-    4: "Rejected",
-    Open: 0,
-    InProgress: 1,
-    Waiting: 2,
-    Done: 3,
-    Rejected: 4,
-} as const;
 
 const feedbacksFixture = [
     {
@@ -52,6 +41,8 @@ const feedbacksFixture = [
         phone: "+49 123 456 789",
         createdDate: "2026-04-01T10:00:00Z",
         status: FeedbackStatus.Open,
+        assignedAdminId: null,
+        assignedAdminName: null,
     },
     {
         id: 102,
@@ -61,6 +52,8 @@ const feedbacksFixture = [
         phone: "+49 555 111 222",
         createdDate: "2026-04-02T11:30:00Z",
         status: FeedbackStatus.Waiting,
+        assignedAdminId: null,
+        assignedAdminName: null,
     },
 ];
 
@@ -70,7 +63,7 @@ describe("FeedbackTable", () => {
     });
 
     it("filters tickets by search query", async () => {
-        mockedFetchFeedbacks.mockResolvedValue(feedbacksFixture);
+        mockedFetchFeedbacks.mockResolvedValue({ items: feedbacksFixture, totalCount: feedbacksFixture.length });
 
         render(<FeedbackTable />);
 
@@ -85,7 +78,7 @@ describe("FeedbackTable", () => {
     });
 
     it("updates ticket status from available actions", async () => {
-        mockedFetchFeedbacks.mockResolvedValue(feedbacksFixture);
+        mockedFetchFeedbacks.mockResolvedValue({ items: feedbacksFixture, totalCount: feedbacksFixture.length });
         mockedUpdateFeedbackStatus.mockResolvedValue();
 
         render(<FeedbackTable />);
@@ -106,7 +99,7 @@ describe("FeedbackTable", () => {
     it("retries loading after initial fetch failure", async () => {
         mockedFetchFeedbacks
             .mockRejectedValueOnce(new Error("boom"))
-            .mockResolvedValueOnce(feedbacksFixture);
+            .mockResolvedValueOnce({ items: feedbacksFixture, totalCount: feedbacksFixture.length });
 
         render(<FeedbackTable />);
 
