@@ -60,22 +60,34 @@ Key layers:
 ```text
 src/
 ├── api.ts                    # compatibility barrel, re-exports all API modules
-├── services/api/             # domain API modules
-│   ├── auth.ts
-│   ├── feedback.ts
-│   ├── users.ts
-│   ├── statistics.ts
-│   ├── broadcast.ts
-│   ├── operator.ts
-│   └── types.ts
+├── auth/                     # auth context and auth tests
+├── components/               # UI components and pages
+│   ├── BroadcastForm/
+│   ├── Common/               # shared UI primitives (AppNotice, PageState, AppErrorBoundary)
+│   ├── FeedbackTable/
+│   ├── HomePage/
+│   ├── LoginPage/
+│   ├── MainLayout/
+│   ├── Navbar/
+│   ├── ProtectedRoute/
+│   ├── Statistics/
+│   └── UserList/
 ├── hooks/                    # feature-level state and data loading hooks
 │   ├── useFeedbackTable.ts
 │   ├── useUserList.ts
 │   ├── useStatisticsData.ts
 │   └── useBroadcastForm.ts
-├── auth/                     # auth context and auth tests
-├── components/               # UI components and pages
-└── axiosInstance.ts          # axios instance and refresh-token logic
+├── services/
+│   ├── api/                  # domain API modules
+│   │   ├── auth.ts
+│   │   ├── feedback.ts
+│   │   ├── users.ts
+│   │   ├── statistics.ts
+│   │   ├── broadcast.ts
+│   │   ├── operator.ts
+│   │   └── types.ts
+│   └── axiosInstance.ts      # axios instance and refresh-token logic
+└── utils/                    # shared utilities (dates, error messages, jwt)
 ```
 
 The `src/api.ts` file still exists as a stable import point, so older imports continue to work.
