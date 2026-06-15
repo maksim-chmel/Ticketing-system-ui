@@ -4,28 +4,7 @@ Admin panel for coordinators in the Ticketing System platform. The application i
 
 ## Overview
 
-This repository is the web interface for ticket processing, operator workflows, user notes, statistics and Telegram broadcast messages.
-
-Platform components:
-
-| Repository | Technology | Purpose |
-| --- | --- | --- |
-| [ticketing-system-server](https://github.com/maksim-chmel/Ticketing-system-server) | ASP.NET Core 8 | REST API, auth, business logic, database access |
-| `ticketing-system-ui` | React 19 + TypeScript | Admin panel for coordinators |
-| [feedback_bot](https://github.com/maksim-chmel/feedback_bot) | Node.js + TypeScript | Telegram entry point for end users |
-| [alarm_bot](https://github.com/maksim-chmel/alarm_bot) | Node.js + TypeScript | Telegram notifications for operators |
-
-High-level flow:
-
-```text
-Telegram user
-   -> feedback_bot
-   -> backend API
-   -> PostgreSQL
-   -> ticketing-system-ui
-
-alarm_bot polls backend and notifies operators about new tickets.
-```
+React SPA admin panel for coordinators — ticket processing, operator workflows, user notes, statistics and Telegram broadcast messages. Communicates with the [ASP.NET Core backend](https://github.com/maksim-chmel/Ticketing-system-server) over its REST API without changing existing contracts.
 
 ## Main Features
 
